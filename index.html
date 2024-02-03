@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Break the Scroll!</title>
 </head>
 <body>
 
-    <section class="start-screen" id="start-screen">
-        <h1>Ready to learn something?</h1>
-        <p>or, if you'd rather, you could <span class="bored-api"></span></p>
+    <section class="start">
+        <div id="start-screen">
+            <h1>Ready to learn something?</h1>
+            <p>Or, could I encourage you to:</p> 
+            <p class="bored-api"></p>
+        </div>
+        <button id="category-btn">Take me to Categories</button>
     </section>
 
     <section class="categories hide" id="categories">
-
+        <h1>Categories:</h1>
     </section>
 
 
@@ -24,7 +29,6 @@
             integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
             crossorigin="anonymous"
             ></script>
-    <script src="jquery-3.7.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
