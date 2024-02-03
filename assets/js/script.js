@@ -73,7 +73,9 @@ function startQuiz() {
 
 function displayQuestion() {
     // reset page to nothing so we refresh with new information each time
-    // run fetch request function with quiz functionality in second promise statement
+    // run fetch request function for each question and populate quiz question/answer elements
+    // need quiz functionality in second promise statement 
+    // need to generate a random question within the category chosen
     triviaFetch();
 }
 
