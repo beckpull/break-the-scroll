@@ -26,7 +26,7 @@ function boredFetch() {
         if (document.querySelector('.start-api') == undefined) {
             var indexBored = document.createElement('div');
             indexBored.setAttribute('class', 'start-api');
-            var fetchHtml = `<p class="bored-api">${data.activity}</p>`;
+            var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
             indexBored.innerHTML = fetchHtml;
             startDiv.appendChild(indexBored);
         }
@@ -91,7 +91,6 @@ function triviaFetch() {
     })
 }
 
-
 // Aquire initials functions
 function aquireInitials() {
     clearInterval(timerInterval);
@@ -114,8 +113,16 @@ function displayScores() {
     boredFetch();
  }
 
-
-
 // Event listeners
 $('#category-btn').on('click', getCategories);
 $('#submit-initials').on('click', submitBtn);
+
+// Stash of bulma elements to add:
+
+// Progress bar for quiz:
+// `
+// <progress class="progress is-success" value="60" max="100">60%</progress>
+// `
+
+
+
