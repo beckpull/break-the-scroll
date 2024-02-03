@@ -23,23 +23,31 @@ function boredFetch() {
     })
     .then(function(data) {
         console.log(data);
-        if (document.querySelector('.start-api') == undefined) {
-            var indexBored = document.createElement('div');
-            indexBored.setAttribute('class', 'start-api');
-            var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
-            indexBored.innerHTML = fetchHtml;
-            startDiv.appendChild(indexBored);
+        if (document.querySelector('.start-api') != undefined) {
+            var indexBored1 = document.querySelector('.start-api');
+            startDiv.removeChild(indexBored1);
         }
+        var indexBored = document.createElement('div');
+        indexBored.setAttribute('class', 'start-api');
+        var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
+        indexBored.innerHTML = fetchHtml;
+        startDiv.appendChild(indexBored);
     })
 }
 
-boredFetch();
+function getStart() {
+    boredFetch();
+    startScreen.classList.remove('hide');
+    catScreen.classList.add('hide');
+}
 
+getStart();
 // Go to category page
 function getCategories() {
     startScreen.classList.add('hide');
     catScreen.classList.remove('hide');
     // Going to need to add trivia fetch request to get category possibilities?
+    // was thinking of maybe saving categories each user likes in local storage too as a way to spunk it up?
 }
 
 // Quiz functions 
@@ -89,7 +97,8 @@ function triviaFetch() {
     })
     .then(function(data) {
         console.log(data);
-        // All the things to do with the trivia data - most of our quiz functionality I would think
+        // All the things to do with the trivia data - 
+        // most of our quiz functionality/populating things I would think
     })
 }
 
@@ -118,6 +127,35 @@ function displayScores() {
 // Event listeners
 $('#category-btn').on('click', getCategories);
 $('#submit-initials').on('click', submitBtn);
+$('#back-btn').on('click', getStart);
+$('#suggest-btn').on('click', boredFetch)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Stash of bulma elements to add:
 
@@ -126,5 +164,22 @@ $('#submit-initials').on('click', submitBtn);
 // <progress class="progress is-success" value="60" max="100">60%</progress>
 // `
 
+// Modal card
 
+{/* <div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modal title</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <!-- Content ... -->
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-link">Save changes</button>
+      <button class="button is-link is-outlined">Cancel</button>
+    </footer>
+  </div>
+</div> */}
 
