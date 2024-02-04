@@ -1,11 +1,15 @@
 // Query selector variables
+var startPage = './index.html';
 var startScreen = document.querySelector('.start');
 var startDiv = document.querySelector('#start-screen')
 var catScreen = document.querySelector('#categories');
+var quizPage = './quiz.html';
 var quizScreen = document.querySelector('#quiz');
+var qrCode = './index.html';
 var timeEl = document.querySelector('.time');
 var initialsScreen = document.querySelector('#aquire-initials');
 var initials = document.querySelector('#initials');
+var scorePage = './scores.html';
 var scoresScreen = document.querySelector('#high-scores');
 var funIdea = document.querySelector('#scores-idea');
 
@@ -129,6 +133,20 @@ $('#category-btn').on('click', getCategories);
 $('#submit-initials').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
 $('#suggest-btn').on('click', boredFetch)
+$('#quiz-btn').on('click', function() {
+    document.location.replace(quizPage);
+})
+
+
+$('#back-btn-2').on('click', function() {
+    document.location.href = './index.html'; 
+    getStart();
+})
+$("#to-quiz-btn").on('click', function() {
+    console.log('clicked');
+    document.location.replace(startPage);
+    getStart();
+})
 
 
 
@@ -165,6 +183,11 @@ $('#suggest-btn').on('click', boredFetch)
 // `
 
 // Modal card
+
+// numbers api for fun fact w/ date for extra cred?
+// dayjs to get date, format it for numbers api fetch and 
+// populate fun fact with the date in modal just as a weird feature?
+// http://numbersapi.com/number/type
 
 {/* <div class="modal">
   <div class="modal-background"></div>

@@ -1,26 +1,66 @@
-<!-- This is where we can put a qr code, but I am still unsure on functionality -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <title>Break the Scroll!</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Break the Scroll!</title>
+</head>
+<body>
+    <div class="container">
 
-        <div class="bulma-center-mixin-parent">
-            <img class="bulma-center-mixin" height="96" width="96" src="https://source.unsplash.com/mEZ3PoFGs_k/192x192">
+        <section class="content start has-text-centered">
+            <div id="start-screen">
+                <h1 class="block title is-1 my-5">Ready to learn something?</h1>
+                <h3 class="block subtitle is-3 my-2">Or, could we encourage you to:</h3> 
+                <div class="block bored-api my-2"></div>
+            </div>
+            <button class="button is-link is-outlined" id="suggest-btn">New Suggestion</button>
+            <button class="button is-link" id="category-btn">Take me to Categories</button>
+        </section>
+
+        <section class="categories hide has-text-centered" id="categories">
+            <h1 class="title is-2 my-5">Categories:</h1>
+            <button class="button is-link is-outlined" id="quiz-btn">Quiz</button>
+            <button class="button is-link is-light" id="back-btn">Back</button>
+        </section>
+
+        <section class="quiz-screen hide" id="quiz">
+            <button class="button is-link is-light" id="back-btn-2">Back</button>
+        </section>
+    
+        <section class="aquire-initials hide" id="aquire-initials">
+            <h2 id='add-score'>All done!</h2>   
+            <h3>Enter your initials below:</h3>
+            <input type="text" id="initials" placeholder="Enter initials here">
+            <button id="submit-initials">Submit</button>
+        </section>
+
+        <div class="scores-page hide">
+            <section class="scores" id="high-scores">
+                <!-- High scores to load from localStorage in script.js -->
+            </section>
+        
+    
+            <section class="fun-idea bored-api" id="scores-idea">
+                <!-- This is where we can populate/style that information -->
+            </section>
+        
+    
+            <p>or, if you must stay on the cellular:</p>
+    
+            <button class="play-again" id="play-again-btn">Play Again</button>
         </div>
 
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
             integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
             crossorigin="anonymous"
             ></script>
-        <script src="./assets/js/script.js"></script>
-    </body>
+    <script src="./assets/js/script.js"></script>
+</body>
 </html>
