@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Break the Scroll!</title>
@@ -14,12 +15,17 @@
 
         <section class="content start has-text-centered">
             <div id="start-screen">
-                <h1 class="block title is-1 my-5">Ready to learn something?</h1>
-                <h3 class="block subtitle is-3 my-2">Or, could we encourage you to:</h3> 
-                <div class="block bored-api my-2"></div>
+                <h1 class="start-title block title is-1 my-5">Ready to learn something?</h1>
+                <h3 class="start-mid block subtitle is-3 my-2">Or, could we entice you to:</h3> 
+                <div class="block bored-api my-2">
+                 <!-- First Bored Api fetch request response will populate here -->
+                </div>
             </div>
-            <button class="button is-link is-outlined" id="suggest-btn">New Suggestion</button>
-            <button class="button is-link" id="category-btn">Take me to Categories</button>
+            <div class="start-btns">
+                
+                <button class="button is-link is-rounded is-large is-fullwidth my-4" id="category-btn">Take me to Categories</button>
+                <button class="button is-link is-light" id="name-btn">Aquire Name</button>
+            </div>
         </section>
 
         <section class="categories hide has-text-centered" id="categories">
@@ -28,30 +34,35 @@
         </section>
 
         <section class="quiz-screen hide" id="quiz">
-            <button class="button is-link is-light" id="back-btn-2">Back</button>
+            
         </section>
     
-        <section class="aquire-initials hide" id="aquire-initials">
-            <h2 id='add-score'>All done!</h2>   
-            <h3>Enter your initials below:</h3>
-            <input type="text" id="initials" placeholder="Enter initials here">
-            <button id="submit-initials">Submit</button>
+        <section class="aquire-name has-text-centered hide" id="aquire-name">
+            <h2 class="my-3 title is-3" id='end-message'>All done!</h2>   
+            <h3 class="my-3 subtitle is-4 has-text-grey enter-name">Enter your name below:</h3>
+            <input class="input is-large my-3 has-text-centered" type="text" id="name" placeholder="Enter name here">
+            <button class="button my-3 is-large is-link is-outlined" id="submit-name">Submit</button>
         </section>
 
-        <div class="scores-page hide">
-            <section class="scores" id="high-scores">
-                <!-- High scores to load from localStorage in script.js -->
+        <div class="scores-page hide content has-text-centered">
+            <h1 class=" score-title title is-2 has-text-link my-3">High Scores</h1>
+
+            <section class="table-container scores box" id="high-scores">
+                <table class="table is-bordered is-striped is-hoverable" id="show-score">
+                    
+                     <!-- High scores to load from localStorage in script.js -->
+                </table>
             </section>
-        
-    
-            <section class="fun-idea bored-api" id="scores-idea">
-                <!-- This is where we can populate/style that information -->
+            
+            <section class="fun-idea second-bored-api my-4 box" id="scores-idea">
+                <p class=" here-idea title is-3 my-3">Here's an idea for you:</p>
+                 <!-- This is where we can populate/style that information -->
             </section>
-        
+
+            <p class="or subtitle is-4 my-3">Or, if you <i>insist</i> on staying plugged in:</p>
     
-            <p>or, if you must stay on the cellular:</p>
-    
-            <button class="play-again" id="play-again-btn">Play Again</button>
+            <button class="button is-fullwidth is-link is-outlined play-again subtitle is-4 my-3" id="play-again-btn">Play Again</button>
+            <button class="button is-small reset" id="reset-btn">Reset Scores</button>
         </div>
 
     </div>
@@ -61,5 +72,6 @@
             crossorigin="anonymous"
             ></script>
     <script src="./assets/js/script.js"></script>
+
 </body>
 </html>

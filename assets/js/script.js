@@ -1,52 +1,20 @@
 // Query selector variables
-var startPage = './index.html';
+
 var startScreen = document.querySelector('.start');
-var startDiv = document.querySelector('#start-screen')
+var startDiv = document.querySelector('.bored-api');
 var catScreen = document.querySelector('#categories');
-var quizPage = './quiz.html';
 var quizScreen = document.querySelector('#quiz');
-var qrCode = './index.html';
 var timeEl = document.querySelector('.time');
-var initialsScreen = document.querySelector('#aquire-initials');
-var initials = document.querySelector('#initials');
-var scorePage = './scores.html';
-var scoresScreen = document.querySelector('#high-scores');
+var nameScreen = document.querySelector('#aquire-name');
+var userName = document.querySelector('#name');
+var scoresScreen = document.querySelector('.scores-page');
 var funIdea = document.querySelector('#scores-idea');
+var numFetch = document.querySelector('#num-fetch');
+var scoreTable = document.querySelector('#show-score');
 
 // Local variables
 var currentIndex = 0;
 let score = 0;
-
-// Bored API Fetch request
-function boredFetch() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
-
-    fetch(requestURL)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-            if (document.querySelector('.start-api') != undefined) {
-                var indexBored1 = document.querySelector('.start-api');
-                startDiv.removeChild(indexBored1);
-            }
-            var indexBored = document.createElement('div');
-            indexBored.setAttribute('class', 'start-api');
-            var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
-            indexBored.innerHTML = fetchHtml;
-            startDiv.appendChild(indexBored);
-        })
-}
-
-function getStart() {
-    boredFetch();
-    startScreen.classList.remove('hide');
-    catScreen.classList.add('hide');
-}
-
-getStart();
-
 
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
@@ -165,106 +133,38 @@ function getIconCategory(categoryId) {
 
 
 
+// My code:
 
-// First call to get categories
-getCategories(1);
+// First Bored API Fetch request
+function boredFetch() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
 
-
-
-
-
-// Quiz functions 
-// ---------------------------------------START JORDAN'S WORK IN PROGRESS ---------------------------------------------------------//
-//---------------- Variables ----------------//
-// Variable for quick production testing //
-// var nextQuestion = $("#nextQuestion");
-
-// Variables to keep//
-var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question")
-var ulQuiz = $("<ul>")
-var answerBtns = $(".option")
-var answerBtn = $("<button>")
-var generateToken = $("#generateToken");
-var resetToekn = $("#resetToken");
-var token;
-var questionGroup = [];
-
-//---------------- Fetch Requests ----------------//
-var quizEl = document.getElementById('quiz');
-function tokenFetch() {
-    var requestURL = "https://opentdb.com/api_token.php?command=request"
-    fetch(requestURL, {
-        // Need for future parameters? DELETE if not needed. 
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
     })
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (data) {
-            token = (data.token);
-            console.log(token);
-            // Create title for quiz 
-            var quizMessageEl = document.createElement('h2');
-            quizMessageEl.classList.add('subtitle');
-            quizMessageEl.textContent = 'Answer as many questions as you can!';
-            quizEl.appendChild(quizMessageEl);
-            triviaFetch()
-        })
+    .then(function(data) {
+        // console.log(data);
+        if (document.querySelector('.start-api') != undefined) {
+            var indexBored1 = document.querySelector('.start-api');
+            startDiv.removeChild(indexBored1);
+        }
+        var indexBored = document.createElement('div');
+        indexBored.setAttribute('class', 'start-api');
+        var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
+        indexBored.innerHTML = fetchHtml;
+        startDiv.appendChild(indexBored);
+    })
+}
 
-};
+function getStart() {
+    boredFetch();
+    startScreen.classList.remove('hide');
+    catScreen.classList.add('hide');
+}
 
-function triviaFetch() {
-    var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
-    console.log(requestURL);
-    fetch(requestURL)
-        .then(function (response) {
-            if (!response.ok) {
-                return triviaFetch();
-            }
-            return response.json()
-        })
-        .then(function (data) {
-            console.log(data)
-            questionGroup = (data.results[0].incorrect_answers);
-            questionGroup.unshift((data.results[0].question), (data.results[0].correct_answer));
-
-            // Create Question <P> element with question//
-            questionSet.append(question.html(questionGroup[0]).append(ulQuiz))
-
-            for (var i = 0; i < questionGroup.length - 1; i++) {
-                // Create Answers <Button> elements//
-                question.append($("<button>").attr({ "class": "option", "id": "option-" + i }))
-            }
-
-            $("#option-0").html(questionGroup[1]);
-            $("#option-1").html(questionGroup[2]);
-            $("#option-2").html(questionGroup[3]);
-            $("#option-3").html(questionGroup[4]);
-            console.log(questionGroup);
-        });
-};
-
-//---------------- Event Listeners ----------------//
-// Search form event listener //
-
-generateToken.on("click", function (event) {
-    tokenFetch();
-});
-
-questionSet.on("click", ".option", function () {
-    questionGroup = [];
-    triviaFetch();
-});
-
-//-- Console.log eventlistening prod testing --//
-// questionSet.on("click", ".option", function () {
-//     console.log($(this).attr("id") === "option-0");
-//     console.log(this)
-// });
-
-$(".categories").on("click", ".btn-dif", startQuiz);
-
-// ---------------------------------------END JORDAN'S WORK IN PROGRESS ---------------------------------------------------------//
+// Calling function to get started
+getStart();
 
 // Setting timer/interval
 var timerInterval;
@@ -279,102 +179,118 @@ function setTimer() {
             secondsLeft--;
         } else {
             clearInterval(timerInterval);
-            aquireInitials();
+            aquirename();
         }
     }, 1000)
 }
 
-function startQuiz() {
-    // score = 0;
-    // currentIndex = 0;
-    // setTimer();
-    catScreen.classList.add('hide');
-    quizScreen.classList.remove('hide');
-    tokenFetch();
-    // displayQuestion();
-}
-// -----------------------------DO WE NEED THIS STILL?---------------------------------//
-function displayQuestion() {
-    // reset page to nothing so we refresh with new information each time
-    // run fetch request function for each question and populate quiz question/answer elements
-    // need quiz functionality in second promise statement 
-    // need to generate a random question within the category chosen
-    triviaFetch();
-}
-
-// Open Trivia DB fetch request function
-// function triviaFetch() {
-//     var requestURL = ``; // needs url
-
-//     fetch(requestURL)
-//         .then(function (response) {
-//             return response.json();
-//         })
-//         .then(function (data) {
-//             console.log(data);
-//             // All the things to do with the trivia data - 
-//             // most of our quiz functionality/populating things I would think
-//         })
-// }
-// -----------------------------DO WE NEED THIS STILL?---------------------------------//
-
-// Aquire initials functions
-function aquireInitials() {
+// Aquire name functions
+function aquireName() {
     clearInterval(timerInterval);
+    startScreen.classList.add('hide');
     quizScreen.classList.add('hide');
-    initialsScreen.classList.remove('hide');
+    nameScreen.classList.remove('hide');
 }
 
-function submitBtn(event) {
+function submitBtn(event) {  
     event.preventDefault();
     var userScore = {
-        user: initials.value.trim(),
+        user: userName.value.trim(),
         score: score
     }
-    localStorage.setItem('userInfo', JSON.stringify(userScore));
+    console.log(userScore);
+    saveScores(userScore);
+    displayScores();
 }
 
 // Display high score functions
-function displayScores() {
+function saveScores(userScore) {
+    var savedScores = localStorage.getItem('savedScores');
+    var scoresArray = [];
+    if (savedScores) {
+        scoresArray = JSON.parse(savedScores);
+    }
+    scoresArray.push(userScore);
+    localStorage.setItem('savedScores', JSON.stringify(scoresArray));
+}
 
+String.prototype.toSentenceCase= function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
+}
+
+function getScores() {
+        scoreTable.innerHTML = `
+                    <tr>
+                        <td class="is-size-4"><strong>Users</strong></td>
+                        <td class="is-size-4"><strong>Scores</strong></td>
+                    </tr>
+        `;
+        var savedScores = localStorage.getItem('savedScores');
+        if (savedScores) {
+            var scoresArray = JSON.parse(savedScores).sort((a, b) => b.score - a.score);
+            for (var i = 0; i < 11; i++) {
+                var tableRow = document.createElement('tr');
+                tableRow.classList.add('score-row');
+                if (scoresArray[i]) {
+                    var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
+                    var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
+                    tableRow.innerHTML = `
+                        <td>${userName}</td><td>${userScore}</td>
+                    `;
+                    scoreTable.appendChild(tableRow);
+            }
+        }
+    };
+}
+
+$('#reset-btn').on('click', function() {
+    localStorage.removeItem('savedScores');
+    $('.score-row').remove();
+});
+
+function displayScores() {
+    boredFetch2();
+    nameScreen.classList.add('hide');
+    scoresScreen.classList.remove('hide');
+    getScores();
+ }
+
+ // Second bored fetch request
+function boredFetch2() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
+
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        // console.log(data);
+        if (document.querySelector('.score-bored') != undefined) {
+            var scoreBored1 = document.querySelector('.score-bored');
+            funIdea.removeChild(scoreBored1);
+        }
+        var scoreBored = document.createElement('div');
+        scoreBored.setAttribute('class', 'score-bored');
+        var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
+        scoreBored.innerHTML = fetchHtml;
+        funIdea.appendChild(scoreBored);
+    })
+}
+
+
+ function playAgain() {
+    scoresScreen.classList.add('hide');
+    startScreen.classList.remove('hide');
     boredFetch();
 }
 
 // Event listeners
-$('#category-btn').on('click', getCategories);
-$('#submit-initials').on('click', submitBtn);
+$('#category-btn').on('click', () => { getCategories(1) });
+$('#submit-name').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
-$('#suggest-btn').on('click', boredFetch)
-$('#quiz-btn').on('click', function () {
-
-})
-
-
-$('#back-btn-2').on('click', function () {
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$('#suggest-btn').on('click', boredFetch);
+$('#name-btn').on('click', aquireName);
+$('#play-again-btn').on('click', playAgain);
 
 
 
@@ -389,27 +305,5 @@ $('#back-btn-2').on('click', function () {
 // <progress class="progress is-success" value="60" max="100">60%</progress>
 // `
 
-// Modal card
 
-// numbers api for fun fact w/ date for extra cred?
-// dayjs to get date, format it for numbers api fetch and 
-// populate fun fact with the date in modal just as a weird feature?
-// http://numbersapi.com/number/type
-
-{/* <div class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      <!-- Content ... -->
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-link">Save changes</button>
-      <button class="button is-link is-outlined">Cancel</button>
-    </footer>
-  </div>
-</div> */}
 
