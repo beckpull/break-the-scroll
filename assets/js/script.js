@@ -251,19 +251,14 @@ $('#submit-initials').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
 $('#suggest-btn').on('click', boredFetch)
 $('#quiz-btn').on('click', function() {
-    document.location.replace(quizPage);
+    
 })
 
 
 $('#back-btn-2').on('click', function() {
-    document.location.href = './index.html'; 
-    getStart();
+    
 })
-$("#to-quiz-btn").on('click', function() {
-    console.log('clicked');
-    document.location.replace(startPage);
-    getStart();
-})
+
 
 
 
