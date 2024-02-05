@@ -1,12 +1,12 @@
 // Query selector variables
 
 var startScreen = document.querySelector('.start');
-var startDiv = document.querySelector('#start-screen');
+var startDiv = document.querySelector('.bored-api');
 var catScreen = document.querySelector('#categories');
 var quizScreen = document.querySelector('#quiz');
 var timeEl = document.querySelector('.time');
-var initialsScreen = document.querySelector('#aquire-initials');
-var initials = document.querySelector('#initials');
+var nameScreen = document.querySelector('#aquire-name');
+var userName = document.querySelector('#name');
 var scoresScreen = document.querySelector('.scores-page');
 var funIdea = document.querySelector('#scores-idea');
 var numFetch = document.querySelector('#num-fetch');
@@ -15,37 +15,6 @@ var scoreTable = document.querySelector('#show-score');
 // Local variables
 var currentIndex = 0;
 let score = 0;
-
-// Bored API Fetch request
-function boredFetch() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
-
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // console.log(data);
-        if (document.querySelector('.start-api') != undefined) {
-            var indexBored1 = document.querySelector('.start-api');
-            startDiv.removeChild(indexBored1);
-        }
-        var indexBored = document.createElement('div');
-        indexBored.setAttribute('class', 'start-api');
-        var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
-        indexBored.innerHTML = fetchHtml;
-        startDiv.appendChild(indexBored);
-    })
-}
-
-function getStart() {
-    boredFetch();
-    startScreen.classList.remove('hide');
-    catScreen.classList.add('hide');
-}
-
-getStart();
-
 
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
@@ -164,13 +133,38 @@ function getIconCategory(categoryId) {
 
 
 
+// My code:
 
-// First call to get categories
+// First Bored API Fetch request
+function boredFetch() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
 
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        // console.log(data);
+        if (document.querySelector('.start-api') != undefined) {
+            var indexBored1 = document.querySelector('.start-api');
+            startDiv.removeChild(indexBored1);
+        }
+        var indexBored = document.createElement('div');
+        indexBored.setAttribute('class', 'start-api');
+        var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
+        indexBored.innerHTML = fetchHtml;
+        startDiv.appendChild(indexBored);
+    })
+}
 
+function getStart() {
+    boredFetch();
+    startScreen.classList.remove('hide');
+    catScreen.classList.add('hide');
+}
 
-
-// Quiz functions 
+// Calling function to get started
+getStart();
 
 // Setting timer/interval
 var timerInterval;
@@ -185,10 +179,133 @@ function setTimer() {
             secondsLeft--;
         } else {
             clearInterval(timerInterval);
-            aquireInitials();
+            aquirename();
         }
     }, 1000)
 }
+
+// Aquire name functions
+function aquireName() {
+    clearInterval(timerInterval);
+    startScreen.classList.add('hide');
+    quizScreen.classList.add('hide');
+    nameScreen.classList.remove('hide');
+}
+
+function submitBtn(event) {  
+    event.preventDefault();
+    var userScore = {
+        user: userName.value.trim(),
+        score: score
+    }
+    console.log(userScore);
+    saveScores(userScore);
+    displayScores();
+}
+
+// Display high score functions
+function saveScores(userScore) {
+    var savedScores = localStorage.getItem('savedScores');
+    var scoresArray = [];
+    if (savedScores) {
+        scoresArray = JSON.parse(savedScores);
+    }
+    scoresArray.push(userScore);
+    localStorage.setItem('savedScores', JSON.stringify(scoresArray));
+}
+
+String.prototype.toSentenceCase= function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
+}
+
+function getScores() {
+        scoreTable.innerHTML = `
+                    <tr>
+                        <td class="is-size-4"><strong>Users</strong></td>
+                        <td class="is-size-4"><strong>Scores</strong></td>
+                    </tr>
+        `;
+        var savedScores = localStorage.getItem('savedScores');
+        if (savedScores) {
+            var scoresArray = JSON.parse(savedScores).sort((a, b) => b.score - a.score);
+            for (var i = 0; i < 11; i++) {
+                var tableRow = document.createElement('tr');
+                tableRow.classList.add('score-row');
+                if (scoresArray[i]) {
+                    var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
+                    var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
+                    tableRow.innerHTML = `
+                        <td>${userName}</td><td>${userScore}</td>
+                    `;
+                    scoreTable.appendChild(tableRow);
+            }
+        }
+    };
+}
+
+$('#reset-btn').on('click', function() {
+    localStorage.removeItem('savedScores');
+    $('.score-row').remove();
+});
+
+function displayScores() {
+    boredFetch2();
+    nameScreen.classList.add('hide');
+    scoresScreen.classList.remove('hide');
+    getScores();
+ }
+
+ // Second bored fetch request
+function boredFetch2() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
+
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        // console.log(data);
+        if (document.querySelector('.score-bored') != undefined) {
+            var scoreBored1 = document.querySelector('.score-bored');
+            funIdea.removeChild(scoreBored1);
+        }
+        var scoreBored = document.createElement('div');
+        scoreBored.setAttribute('class', 'score-bored');
+        var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
+        scoreBored.innerHTML = fetchHtml;
+        funIdea.appendChild(scoreBored);
+    })
+}
+
+
+ function playAgain() {
+    scoresScreen.classList.add('hide');
+    startScreen.classList.remove('hide');
+    boredFetch();
+ }
+
+// Event listeners
+$('#category-btn').on('click', () => { getCategories(1) });
+$('#submit-name').on('click', submitBtn);
+$('#back-btn').on('click', getStart);
+$('#suggest-btn').on('click', boredFetch);
+$('#name-btn').on('click', aquireName);
+$('#play-again-btn').on('click', playAgain);
+
+
+
+
+
+
+
+// Stash of bulma elements to add:
+
+// Progress bar for quiz:
+// `
+// <progress class="progress is-success" value="60" max="100">60%</progress>
+// `
+
+
 
 // function startQuiz() {
 //     score = 0;
@@ -221,134 +338,4 @@ function setTimer() {
 //         // most of our quiz functionality/populating things I would think
 //     })
 // }
-
-// Aquire initials functions
-function aquireInitials() {
-    clearInterval(timerInterval);
-    startScreen.classList.add('hide');
-    quizScreen.classList.add('hide');
-    initialsScreen.classList.remove('hide');
-}
-
-function submitBtn(event) {  
-    event.preventDefault();
-    var userScore = {
-        user: initials.value.trim(),
-        score: score
-    }
-    console.log(userScore);
-    saveScores(userScore);
-    displayScores();
-}
-
-function saveScores(userScore) {
-    var savedScores = localStorage.getItem('savedScores');
-    var scoresArray = [];
-    if (savedScores) {
-        scoresArray = JSON.parse(savedScores);
-    }
-    scoresArray.push(userScore);
-    localStorage.setItem('savedScores', JSON.stringify(scoresArray));
-}
-function getScores() {
-    $(document).ready(function() {
-        var savedScores = localStorage.getItem('savedScores');
-        if (savedScores) {
-            var scoresArray = JSON.parse(savedScores);
-            for (var i = 0; i < scoresArray.length; i++) {
-                var tableRow = document.createElement('tr');
-                tableRow.classList.add('score-row')
-                tableRow.innerHTML = '<td>User: ' + scoresArray[i].user.toUpperCase() + '</td><td>Score: ' + scoresArray[i].score + '</td>';
-                scoreTable.appendChild(tableRow);
-            }
-        }
-    });
-}
-
-$('#reset-btn').on('click', function() {
-    localStorage.removeItem('savedScores');
-    $('.score-row').remove();
-});
-
-
-// Display high score functions
-function displayScores() {
-    boredFetch2();
-    initialsScreen.classList.add('hide');
-    scoresScreen.classList.remove('hide');
-    getScores();
- }
-
-function boredFetch2() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
-
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // console.log(data);
-        if (document.querySelector('.score-bored') != undefined) {
-            var scoreBored1 = document.querySelector('.score-bored');
-            funIdea.removeChild(scoreBored1);
-        }
-        var scoreBored = document.createElement('div');
-        scoreBored.setAttribute('class', 'score-bored');
-        var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
-        scoreBored.innerHTML = fetchHtml;
-        funIdea.appendChild(scoreBored);
-    })
-}
-
-
- function playAgain() {
-    scoresScreen.classList.add('hide');
-    startScreen.classList.remove('hide');
-    boredFetch();
- }
-
-// Event listeners
-$('#category-btn').on('click', () => { getCategories(1) });
-$('#submit-initials').on('click', submitBtn);
-$('#back-btn').on('click', getStart);
-$('#suggest-btn').on('click', boredFetch);
-$('#initials-btn').on('click', aquireInitials);
-$('#play-again-btn').on('click', playAgain);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Stash of bulma elements to add:
-
-// Progress bar for quiz:
-// `
-// <progress class="progress is-success" value="60" max="100">60%</progress>
-// `
-
 

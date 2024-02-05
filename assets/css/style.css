@@ -70,6 +70,31 @@ img {
     margin-bottom: 20px;
 }
 
+.start {
+    /* entire start screen */
+    padding-top: 15vw
+}
+
+.start-title {
+    /* start title only */
+    padding-bottom: 7vw;
+}
+
+.start-btns {
+    /* start screen buttons */
+    padding-top: 5vw;
+}
+
+#category-button {
+    /* take me to categories */
+    padding: 5px 0 5px 0;
+}
+
+#end-message {
+    padding-top: 17vw;
+    /* all done */
+}
+
 /* My Additions: */
 
 @media screen and (min-width: 768px) {
@@ -84,6 +109,3 @@ img {
     }
 }
 
-@media screen and (max-width: 1025px) {
-    
-}
