@@ -16,6 +16,7 @@ var scoreTable = document.querySelector('#show-score');
 var currentIndex = 0;
 let score = 0;
 
+// SYLVIA: ----------------------------------------------------------------------->
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
 
@@ -130,8 +131,125 @@ function getIconCategory(categoryId) {
 
     return iconoUrl;
 }
+// JORDAN: -----------------------------------------------------------------------> 
+//---------------- Variables ----------------//
+// Variable for quick production testing //
+// var nextQuestion = $("#nextQuestion");
 
+// Variables to keep//
+var questionSet = $(".quiz-screen");
+var question = $("<p>").attr("class", "question")
+var ulQuiz = $("<ul>")
+var answerBtns = $(".option")
+var answerBtn = $("<button>")
+var generateToken = $("#generateToken");
+var resetToekn = $("#resetToken");
+var token;
+var questionGroup = [];
 
+//---------------- Fetch Requests ----------------//
+var quizEl = document.getElementById('quiz');
+function tokenFetch() {
+    var requestURL = "https://opentdb.com/api_token.php?command=request"
+    fetch(requestURL, {
+        // Need for future parameters? DELETE if not needed. 
+    })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            token = (data.token);
+            console.log(token);
+            // Create title for quiz 
+            var quizMessageEl = document.createElement('h2');
+            quizMessageEl.classList.add('subtitle');
+            quizMessageEl.textContent = 'Answer as many questions as you can!';
+            quizEl.appendChild(quizMessageEl);
+            triviaFetch()
+        })
+
+};
+
+function triviaFetch() {
+    var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
+    console.log(requestURL);
+    fetch(requestURL)
+        .then(function (response) {
+            if (!response.ok) {
+                return triviaFetch();
+            }
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+            questionGroup = (data.results[0].incorrect_answers);
+            questionGroup.unshift((data.results[0].question), (data.results[0].correct_answer));
+
+            // Create Question <P> element with question//
+            questionSet.append(question.html(questionGroup[0]).append(ulQuiz))
+
+            for (var i = 0; i < questionGroup.length - 1; i++) {
+                // Create Answers <Button> elements//
+                question.append($("<button>").attr({ "class": "option", "id": "option-" + i }))
+            }
+
+            $("#option-0").html(questionGroup[1]);
+            $("#option-1").html(questionGroup[2]);
+            $("#option-2").html(questionGroup[3]);
+            $("#option-3").html(questionGroup[4]);
+            console.log(questionGroup);
+        });
+};
+
+//---------------- Event Listeners ----------------//
+// Search form event listener //
+
+generateToken.on("click", function (event) {
+    tokenFetch();
+});
+
+questionSet.on("click", ".option", function () {
+    questionGroup = [];
+    triviaFetch();
+});
+
+//-- Console.log eventlistening prod testing --//
+// questionSet.on("click", ".option", function () {
+//     console.log($(this).attr("id") === "option-0");
+//     console.log(this)
+// });
+
+$(".categories").on("click", ".btn-dif", startQuiz);
+
+// BECKY: ----------------------------------------------------------------------->
+
+// Setting timer/interval
+var timerInterval;
+var secondsLeft;
+
+function setTimer() {
+    secondsLeft = 120;
+
+    timerInterval = setInterval(function () {
+        if (secondsLeft >= 0) {
+            timeEl.textContent = 'Time: ' + secondsLeft;
+            secondsLeft--;
+        } else {
+            clearInterval(timerInterval);
+            aquireInitials();
+        }
+    }, 1000)
+}
+
+function startQuiz() {
+    // score = 0;
+    // currentIndex = 0;
+    // setTimer();
+    catScreen.classList.add('hide');
+    quizScreen.classList.remove('hide');
+    tokenFetch();
+    // displayQuestion();
+}
 
 // My code:
 
