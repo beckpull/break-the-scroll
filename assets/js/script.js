@@ -21,22 +21,22 @@ let score = 0;
 function boredFetch() {
     var requestURL = `http://www.boredapi.com/api/activity/`;
 
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data);
-        if (document.querySelector('.start-api') != undefined) {
-            var indexBored1 = document.querySelector('.start-api');
-            startDiv.removeChild(indexBored1);
-        }
-        var indexBored = document.createElement('div');
-        indexBored.setAttribute('class', 'start-api');
-        var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
-        indexBored.innerHTML = fetchHtml;
-        startDiv.appendChild(indexBored);
-    })
+    fetch(requestURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            if (document.querySelector('.start-api') != undefined) {
+                var indexBored1 = document.querySelector('.start-api');
+                startDiv.removeChild(indexBored1);
+            }
+            var indexBored = document.createElement('div');
+            indexBored.setAttribute('class', 'start-api');
+            var fetchHtml = `<h4 class="bored-api subtitle is-4">${data.activity}</h4>`;
+            indexBored.innerHTML = fetchHtml;
+            startDiv.appendChild(indexBored);
+        })
 }
 
 function getStart() {
@@ -56,10 +56,10 @@ function getCategories(pageNumber) {
     catScreen.classList.remove('hide');
     var apiUrl = `https://opentdb.com/api_category.php`;
     fetch(apiUrl)
-        .then(function(response) {
+        .then(function (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function (data) {
             console.log(data);
 
             // Determine the total number of pages based on the number of categories
@@ -96,7 +96,7 @@ function getCategories(pageNumber) {
                 categoriesEl.appendChild(categoryEl);
 
                 var btnCat = categoryEl.querySelector('.btn-cat');
-                btnCat.addEventListener('click', function() {
+                btnCat.addEventListener('click', function () {
                     categoriesEl.innerHTML = `
                         <h2 class="subtitle">Select the difficulty level</h2>
                         <div class="button-container">
@@ -143,11 +143,11 @@ function getCategories(pageNumber) {
             categoriesEl.appendChild(pagination);
 
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log('Error:', error);
         });
 
-        
+
 }
 // Function to get the URL of the icon for a category
 function getIconCategory(categoryId) {
@@ -171,7 +171,100 @@ getCategories(1);
 
 
 
+
+
 // Quiz functions 
+// ---------------------------------------START JORDAN'S WORK IN PROGRESS ---------------------------------------------------------//
+//---------------- Variables ----------------//
+// Variable for quick production testing //
+// var nextQuestion = $("#nextQuestion");
+
+// Variables to keep//
+var questionSet = $(".quiz-screen");
+var question = $("<p>").attr("class", "question")
+var ulQuiz = $("<ul>")
+var answerBtns = $(".option")
+var answerBtn = $("<button>")
+var generateToken = $("#generateToken");
+var resetToekn = $("#resetToken");
+var token;
+var questionGroup = [];
+
+//---------------- Fetch Requests ----------------//
+var quizEl = document.getElementById('quiz');
+function tokenFetch() {
+    var requestURL = "https://opentdb.com/api_token.php?command=request"
+    fetch(requestURL, {
+        // Need for future parameters? DELETE if not needed. 
+    })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            token = (data.token);
+            console.log(token);
+            // Create title for quiz 
+            var quizMessageEl = document.createElement('h2');
+            quizMessageEl.classList.add('subtitle');
+            quizMessageEl.textContent = 'Answer as many questions as you can!';
+            quizEl.appendChild(quizMessageEl);
+            triviaFetch()
+        })
+
+};
+
+function triviaFetch() {
+    var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
+    console.log(requestURL);
+    fetch(requestURL)
+        .then(function (response) {
+            if (!response.ok) {
+                return triviaFetch();
+            }
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data)
+            questionGroup = (data.results[0].incorrect_answers);
+            questionGroup.unshift((data.results[0].question), (data.results[0].correct_answer));
+
+            // Create Question <P> element with question//
+            questionSet.append(question.html(questionGroup[0]).append(ulQuiz))
+
+            for (var i = 0; i < questionGroup.length - 1; i++) {
+                // Create Answers <Button> elements//
+                question.append($("<button>").attr({ "class": "option", "id": "option-" + i }))
+            }
+
+            $("#option-0").html(questionGroup[1]);
+            $("#option-1").html(questionGroup[2]);
+            $("#option-2").html(questionGroup[3]);
+            $("#option-3").html(questionGroup[4]);
+            console.log(questionGroup);
+        });
+};
+
+//---------------- Event Listeners ----------------//
+// Search form event listener //
+
+generateToken.on("click", function (event) {
+    tokenFetch();
+});
+
+questionSet.on("click", ".option", function () {
+    questionGroup = [];
+    triviaFetch();
+});
+
+//-- Console.log eventlistening prod testing --//
+// questionSet.on("click", ".option", function () {
+//     console.log($(this).attr("id") === "option-0");
+//     console.log(this)
+// });
+
+$(".categories").on("click", ".btn-dif", startQuiz);
+
+// ---------------------------------------END JORDAN'S WORK IN PROGRESS ---------------------------------------------------------//
 
 // Setting timer/interval
 var timerInterval;
@@ -180,7 +273,7 @@ var secondsLeft;
 function setTimer() {
     secondsLeft = 120;
 
-    timerInterval = setInterval(function() {
+    timerInterval = setInterval(function () {
         if (secondsLeft >= 0) {
             timeEl.textContent = 'Time: ' + secondsLeft;
             secondsLeft--;
@@ -192,14 +285,15 @@ function setTimer() {
 }
 
 function startQuiz() {
-    score = 0;
-    currentIndex = 0;
-    setTimer();
-    startScreen.classList.add('hide');
+    // score = 0;
+    // currentIndex = 0;
+    // setTimer();
+    catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
-    displayQuestion();
+    tokenFetch();
+    // displayQuestion();
 }
-
+// -----------------------------DO WE NEED THIS STILL?---------------------------------//
 function displayQuestion() {
     // reset page to nothing so we refresh with new information each time
     // run fetch request function for each question and populate quiz question/answer elements
@@ -209,19 +303,20 @@ function displayQuestion() {
 }
 
 // Open Trivia DB fetch request function
-function triviaFetch() {
-    var requestURL = ``; // needs url
+// function triviaFetch() {
+//     var requestURL = ``; // needs url
 
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data);
-        // All the things to do with the trivia data - 
-        // most of our quiz functionality/populating things I would think
-    })
-}
+//     fetch(requestURL)
+//         .then(function (response) {
+//             return response.json();
+//         })
+//         .then(function (data) {
+//             console.log(data);
+//             // All the things to do with the trivia data - 
+//             // most of our quiz functionality/populating things I would think
+//         })
+// }
+// -----------------------------DO WE NEED THIS STILL?---------------------------------//
 
 // Aquire initials functions
 function aquireInitials() {
@@ -243,20 +338,20 @@ function submitBtn(event) {
 function displayScores() {
 
     boredFetch();
- }
+}
 
 // Event listeners
 $('#category-btn').on('click', getCategories);
 $('#submit-initials').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
 $('#suggest-btn').on('click', boredFetch)
-$('#quiz-btn').on('click', function() {
-    
+$('#quiz-btn').on('click', function () {
+
 })
 
 
-$('#back-btn-2').on('click', function() {
-    
+$('#back-btn-2').on('click', function () {
+
 })
 
 
