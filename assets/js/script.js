@@ -46,13 +46,130 @@ function getStart() {
 }
 
 getStart();
-// Go to category page
-function getCategories() {
+
+
+// Get categories element that will contain the categories
+var categoriesEl = document.getElementById('categories');
+
+function getCategories(pageNumber) {
     startScreen.classList.add('hide');
     catScreen.classList.remove('hide');
-    // Going to need to add trivia fetch request to get category possibilities?
-    // was thinking of maybe saving categories each user likes in local storage too as a way to spunk it up?
+    var apiUrl = `https://opentdb.com/api_category.php`;
+    fetch(apiUrl)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+
+            // Determine the total number of pages based on the number of categories
+            var startIdx = (pageNumber - 1) * 6;
+            var endIdx = startIdx + 6;
+            var displayedCategories = data.trivia_categories.slice(startIdx, endIdx);
+
+            // Clear the categories container before adding new categories
+            categoriesEl.innerHTML = "";
+
+            // Show the categories container
+            var catMessageEl = document.createElement('h2');
+            catMessageEl.classList.add('subtitle');
+            catMessageEl.textContent = 'Choose a category to start the quiz';
+            categoriesEl.appendChild(catMessageEl);
+            for (let i = 0; i < displayedCategories.length; i++) {
+                var category = displayedCategories[i];
+                console.log(category);
+
+                var iconUrl = getIconCategory(category.id);
+
+                categories[category.id] = {
+                    name: category.name,
+                    iconUrl: iconUrl
+                };
+
+                var categoryEl = document.createElement('div');
+                categoryEl.classList.add('category');
+                categoryEl.innerHTML = `
+                    <button class="btn-cat"><img src="${categories[category.id].iconUrl}" alt="${category.name} Icono"></button>
+                    <br><span>${category.name}</span>
+                `;
+
+                categoriesEl.appendChild(categoryEl);
+
+                var btnCat = categoryEl.querySelector('.btn-cat');
+                btnCat.addEventListener('click', function() {
+                    categoriesEl.innerHTML = `
+                        <h2 class="subtitle">Select the difficulty level</h2>
+                        <div class="button-container">
+                            <button class="btn-dif">Easy</button>
+                            <button class="btn-dif">Medium</button>
+                            <button class="btn-dif">Hard</button>
+                        </div>
+                        
+                    `;
+                    // Add the logic to get the questions from the category the user chooses
+                });
+
+            }
+
+            // Create and add the pagination section
+            var pagination = document.createElement('nav');
+            pagination.classList.add('pagination');
+            pagination.innerHTML = `
+                <ul class="pagination-list">
+                    <li>
+                        <a class="pagination-link ${pageNumber === 1 ? 'is-current' : ''}" 
+                           aria-label="Page 1" 
+                           aria-current="${pageNumber === 1 ? 'page' : ''}"
+                           onclick="getCategories(1)">1</a>
+                    </li>
+                    <li>
+                        <a class="pagination-link ${pageNumber === 2 ? 'is-current' : ''}" 
+                           aria-label="Goto page 2" 
+                           onclick="getCategories(2)">2</a>
+                    </li>
+                    <li>
+                        <a class="pagination-link ${pageNumber === 3 ? 'is-current' : ''}" 
+                           aria-label="Goto page 3" 
+                           onclick="getCategories(3)">3</a>
+                    </li>
+                    <li>
+                        <a class="pagination-link ${pageNumber === 4 ? 'is-current' : ''}" 
+                           aria-label="Goto page 4" 
+                           onclick="getCategories(4)">4</a>
+                    </li>
+                </ul>
+            `;
+
+            categoriesEl.appendChild(pagination);
+
+        })
+        .catch(function(error) {
+            console.log('Error:', error);
+        });
+
+        
 }
+// Function to get the URL of the icon for a category
+function getIconCategory(categoryId) {
+    // Ruta base de la carpeta que contiene las imágenes
+    var base = './assets/img/categories/';
+
+    // Extensión de las imágenes (asegúrate de que coincida con la extensión real)
+    var extension = '.png';
+
+    // Construir la URL completa utilizando la ruta base, el índice de la categoría y la extensión
+    var iconoUrl = `${base}icono${categoryId}${extension}`;
+
+    return iconoUrl;
+}
+
+
+
+
+// First call to get categories
+getCategories(1);
+
+
 
 // Quiz functions 
 
