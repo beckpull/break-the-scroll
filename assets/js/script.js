@@ -1,17 +1,16 @@
 // Query selector variables
 
 var startScreen = document.querySelector('.start');
-var startDiv = document.querySelector('#start-screen')
+var startDiv = document.querySelector('#start-screen');
 var catScreen = document.querySelector('#categories');
-
 var quizScreen = document.querySelector('#quiz');
-
 var timeEl = document.querySelector('.time');
 var initialsScreen = document.querySelector('#aquire-initials');
 var initials = document.querySelector('#initials');
-
 var scoresScreen = document.querySelector('.scores-page');
 var funIdea = document.querySelector('#scores-idea');
+var numFetch = document.querySelector('#num-fetch');
+var scoreTable = document.querySelector('#show-score');
 
 // Local variables
 var currentIndex = 0;
@@ -26,7 +25,7 @@ function boredFetch() {
         return response.json();
     })
     .then(function(data) {
-        console.log(data);
+        // console.log(data);
         if (document.querySelector('.start-api') != undefined) {
             var indexBored1 = document.querySelector('.start-api');
             startDiv.removeChild(indexBored1);
@@ -191,37 +190,37 @@ function setTimer() {
     }, 1000)
 }
 
-function startQuiz() {
-    score = 0;
-    currentIndex = 0;
-    setTimer();
-    startScreen.classList.add('hide');
-    quizScreen.classList.remove('hide');
-    displayQuestion();
-}
+// function startQuiz() {
+//     score = 0;
+//     currentIndex = 0;
+//     setTimer();
+//     startScreen.classList.add('hide');
+//     quizScreen.classList.remove('hide');
+//     displayQuestion();
+// }
 
-function displayQuestion() {
-    // reset page to nothing so we refresh with new information each time
-    // run fetch request function for each question and populate quiz question/answer elements
-    // need quiz functionality in second promise statement 
-    // need to generate a random question within the category chosen
-    triviaFetch();
-}
+// function displayQuestion() {
+//     // reset page to nothing so we refresh with new information each time
+//     // run fetch request function for each question and populate quiz question/answer elements
+//     // need quiz functionality in second promise statement 
+//     // need to generate a random question within the category chosen
+//     triviaFetch();
+// }
 
-// Open Trivia DB fetch request function
-function triviaFetch() {
-    var requestURL = ``; // needs url
+// // Open Trivia DB fetch request function
+// function triviaFetch() {
+//     var requestURL = ``; // needs url
 
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log(data);
-        // All the things to do with the trivia data - 
-        // most of our quiz functionality/populating things I would think
-    })
-}
+//     fetch(requestURL) 
+//     .then(function(response) {
+//         return response.json();
+//     })
+//     .then(function(data) {
+//         console.log(data);
+//         // All the things to do with the trivia data - 
+//         // most of our quiz functionality/populating things I would think
+//     })
+// }
 
 // Aquire initials functions
 function aquireInitials() {
@@ -231,17 +230,54 @@ function aquireInitials() {
     initialsScreen.classList.remove('hide');
 }
 
-function submitBtn(event) {
-    
+function submitBtn(event) {  
     event.preventDefault();
     var userScore = {
         user: initials.value.trim(),
         score: score
     }
     console.log(userScore);
-    localStorage.setItem('userInfo', JSON.stringify(userScore));
+    saveScores(userScore);
     displayScores();
 }
+
+function saveScores(userScore) {
+    var savedScores = localStorage.getItem('savedScores');
+    var scoresArray = [];
+    if (savedScores) {
+        scoresArray = JSON.parse(savedScores);
+    }
+    scoresArray.push(userScore);
+    localStorage.setItem('savedScores', JSON.stringify(scoresArray));
+}
+function getScores() {
+    $(document).ready(function() {
+        var savedScores = localStorage.getItem('savedScores');
+        if (savedScores) {
+            var scoresArray = JSON.parse(savedScores);
+            for (var i = 0; i < scoresArray.length; i++) {
+                var tableRow = document.createElement('tr');
+                tableRow.classList.add('score-row')
+                tableRow.innerHTML = '<td>User: ' + scoresArray[i].user.toUpperCase() + '</td><td>Score: ' + scoresArray[i].score + '</td>';
+                scoreTable.appendChild(tableRow);
+            }
+        }
+    });
+}
+
+$('#reset-btn').on('click', function() {
+    localStorage.removeItem('savedScores');
+    $('.score-row').remove();
+});
+
+
+// Display high score functions
+function displayScores() {
+    boredFetch2();
+    initialsScreen.classList.add('hide');
+    scoresScreen.classList.remove('hide');
+    getScores();
+ }
 
 function boredFetch2() {
     var requestURL = `http://www.boredapi.com/api/activity/`;
@@ -251,29 +287,24 @@ function boredFetch2() {
         return response.json();
     })
     .then(function(data) {
-        console.log(data);
-        if (document.querySelector('.second-bored-api') != undefined) {
-            var indexBored1 = document.querySelector('.second-bored-api');
-            startDiv.removeChild(indexBored1);
+        // console.log(data);
+        if (document.querySelector('.score-bored') != undefined) {
+            var scoreBored1 = document.querySelector('.score-bored');
+            funIdea.removeChild(scoreBored1);
         }
-        var indexBored = document.createElement('div');
-        indexBored.setAttribute('class', 'start-api');
-        var fetchHtml = `<h4 class="second-bored-api subtitle is-4">${data.activity}</h4>`;
-        indexBored.innerHTML = fetchHtml;
-        startDiv.appendChild(indexBored);
+        var scoreBored = document.createElement('div');
+        scoreBored.setAttribute('class', 'score-bored');
+        var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
+        scoreBored.innerHTML = fetchHtml;
+        funIdea.appendChild(scoreBored);
     })
 }
 
-// Display high score functions
-function displayScores() {
-    initialsScreen.classList.add('hide');
-    scoresScreen.classList.remove('hide');
-    boredFetch2();
- }
 
  function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
+    boredFetch();
  }
 
 // Event listeners
@@ -282,7 +313,6 @@ $('#submit-initials').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
 $('#suggest-btn').on('click', boredFetch);
 $('#initials-btn').on('click', aquireInitials);
-$('#submit-initials').on('click', submitBtn);
 $('#play-again-btn').on('click', playAgain);
 
 
@@ -321,27 +351,4 @@ $('#play-again-btn').on('click', playAgain);
 // <progress class="progress is-success" value="60" max="100">60%</progress>
 // `
 
-// Modal card
-
-// numbers api for fun fact w/ date for extra cred?
-// dayjs to get date, format it for numbers api fetch and 
-// populate fun fact with the date in modal just as a weird feature?
-// http://numbersapi.com/number/type
-
-{/* <div class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      <!-- Content ... -->
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-link">Save changes</button>
-      <button class="button is-link is-outlined">Cancel</button>
-    </footer>
-  </div>
-</div> */}
 

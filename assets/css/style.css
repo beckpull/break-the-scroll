@@ -70,6 +70,8 @@ img {
     margin-bottom: 20px;
 }
 
+/* My Additions: */
+
 @media screen and (min-width: 768px) {
     .category {
         width: calc(33.33% - 20px);
@@ -80,4 +82,8 @@ img {
     .category {
         width: calc(50% - 20px); 
     }
+}
+
+@media screen and (max-width: 1025px) {
+    
 }

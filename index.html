@@ -37,26 +37,30 @@
         <section class="aquire-initials has-text-centered hide" id="aquire-initials">
             <h2 class="my-3" id='add-score'>All done!</h2>   
             <h3 class="my-3">Enter your initials below:</h3>
-            <input class="input my-3" type="text" id="initials" placeholder="Enter initials here">
+            <input class="input my-3 has-text-centered" type="text" id="initials" placeholder="Enter initials here">
             <button class="button my-3 is-link is-outlined" id="submit-initials">Submit</button>
         </section>
 
         <div class="scores-page hide content has-text-centered">
+            
             <section class="scores" id="high-scores">
-                <h1 class="my-3">High Scores</h1>
-                <div class="table" id="show-score">
-                 <!-- High scores to load from localStorage in script.js -->
+                <p class="title is-2 has-text-link my-3">High Scores</p>
+                <div class="table-container">
+                    <table class="table is-bordered is-striped is-narrow is-hoverable" id="show-score">
+                     <!-- High scores to load from localStorage in script.js -->
+                    </table>
                 </div>
             </section>
         
-    
-            <section class="fun-idea bored-api my-4" id="scores-idea">
-                <h5 class="my-3">Here's an idea for you!</h5>
+            
+            <section class="fun-idea second-bored-api my-4" id="scores-idea">
+                <p class="title is-3 my-3">Here's an idea for you:</p>
                  <!-- This is where we can populate/style that information -->
             </section>
-            <h5 class="my-3">Or, if you <i>insist</i> on staying plugged in:</h5>
+            <p class="subtitle is-4 my-3">Or, if you <i>insist</i> on staying plugged in:</p>
     
-            <button class="button is-link is-outlined play-again my-3" id="play-again-btn">Play Again</button>
+            <button class="button is-fullwidth is-link is-outlined play-again subtitle is-4 my-3" id="play-again-btn">Play Again</button>
+            <button class="button is-small reset" id="reset-btn">Reset Scores</button>
         </div>
 
     </div>
@@ -66,5 +70,6 @@
             crossorigin="anonymous"
             ></script>
     <script src="./assets/js/script.js"></script>
+
 </body>
 </html>
