@@ -16,10 +16,13 @@
             <div id="start-screen">
                 <h1 class="block title is-1 my-5">Ready to learn something?</h1>
                 <h3 class="block subtitle is-3 my-2">Or, could we encourage you to:</h3> 
-                <div class="block bored-api my-2"></div>
+                <div class="block bored-api my-2">
+                 <!-- First Bored Api fetch request response will populate here -->
+                </div>
             </div>
             <button class="button is-link is-outlined" id="suggest-btn">New Suggestion</button>
             <button class="button is-link" id="category-btn">Take me to Categories</button>
+            <button class="button is-link is-light" id="initials-btn">Aquire Initials</button>
         </section>
 
         <section class="categories hide has-text-centered" id="categories">
@@ -28,30 +31,32 @@
         </section>
 
         <section class="quiz-screen hide" id="quiz">
-            <button class="button is-link is-light" id="back-btn-2">Back</button>
+            
         </section>
     
-        <section class="aquire-initials hide" id="aquire-initials">
-            <h2 id='add-score'>All done!</h2>   
-            <h3>Enter your initials below:</h3>
-            <input type="text" id="initials" placeholder="Enter initials here">
-            <button id="submit-initials">Submit</button>
+        <section class="aquire-initials has-text-centered hide" id="aquire-initials">
+            <h2 class="my-3" id='add-score'>All done!</h2>   
+            <h3 class="my-3">Enter your initials below:</h3>
+            <input class="input my-3" type="text" id="initials" placeholder="Enter initials here">
+            <button class="button my-3 is-link is-outlined" id="submit-initials">Submit</button>
         </section>
 
-        <div class="scores-page hide">
+        <div class="scores-page hide content has-text-centered">
             <section class="scores" id="high-scores">
-                <!-- High scores to load from localStorage in script.js -->
+                <h1 class="my-3">High Scores</h1>
+                <div class="table" id="show-score">
+                 <!-- High scores to load from localStorage in script.js -->
+                </div>
             </section>
         
     
-            <section class="fun-idea bored-api" id="scores-idea">
-                <!-- This is where we can populate/style that information -->
+            <section class="fun-idea bored-api my-4" id="scores-idea">
+                <h5 class="my-3">Here's an idea for you!</h5>
+                 <!-- This is where we can populate/style that information -->
             </section>
-        
+            <h5 class="my-3">Or, if you <i>insist</i> on staying plugged in:</h5>
     
-            <p>or, if you must stay on the cellular:</p>
-    
-            <button class="play-again" id="play-again-btn">Play Again</button>
+            <button class="button is-link is-outlined play-again my-3" id="play-again-btn">Play Again</button>
         </div>
 
     </div>

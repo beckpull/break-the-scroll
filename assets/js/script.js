@@ -1,16 +1,16 @@
 // Query selector variables
-var startPage = './index.html';
+
 var startScreen = document.querySelector('.start');
 var startDiv = document.querySelector('#start-screen')
 var catScreen = document.querySelector('#categories');
-var quizPage = './quiz.html';
+
 var quizScreen = document.querySelector('#quiz');
-var qrCode = './index.html';
+
 var timeEl = document.querySelector('.time');
 var initialsScreen = document.querySelector('#aquire-initials');
 var initials = document.querySelector('#initials');
-var scorePage = './scores.html';
-var scoresScreen = document.querySelector('#high-scores');
+
+var scoresScreen = document.querySelector('.scores-page');
 var funIdea = document.querySelector('#scores-idea');
 
 // Local variables
@@ -167,7 +167,7 @@ function getIconCategory(categoryId) {
 
 
 // First call to get categories
-getCategories(1);
+
 
 
 
@@ -226,38 +226,65 @@ function triviaFetch() {
 // Aquire initials functions
 function aquireInitials() {
     clearInterval(timerInterval);
+    startScreen.classList.add('hide');
     quizScreen.classList.add('hide');
     initialsScreen.classList.remove('hide');
 }
 
 function submitBtn(event) {
+    
     event.preventDefault();
     var userScore = {
         user: initials.value.trim(),
         score: score
     }
+    console.log(userScore);
     localStorage.setItem('userInfo', JSON.stringify(userScore));
+    displayScores();
+}
+
+function boredFetch2() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
+
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        console.log(data);
+        if (document.querySelector('.second-bored-api') != undefined) {
+            var indexBored1 = document.querySelector('.second-bored-api');
+            startDiv.removeChild(indexBored1);
+        }
+        var indexBored = document.createElement('div');
+        indexBored.setAttribute('class', 'start-api');
+        var fetchHtml = `<h4 class="second-bored-api subtitle is-4">${data.activity}</h4>`;
+        indexBored.innerHTML = fetchHtml;
+        startDiv.appendChild(indexBored);
+    })
 }
 
 // Display high score functions
 function displayScores() {
+    initialsScreen.classList.add('hide');
+    scoresScreen.classList.remove('hide');
+    boredFetch2();
+ }
 
-    boredFetch();
+ function playAgain() {
+    scoresScreen.classList.add('hide');
+    startScreen.classList.remove('hide');
  }
 
 // Event listeners
-$('#category-btn').on('click', getCategories);
+$('#category-btn').on('click', () => { getCategories(1) });
 $('#submit-initials').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
-$('#suggest-btn').on('click', boredFetch)
-$('#quiz-btn').on('click', function() {
-    
-})
+$('#suggest-btn').on('click', boredFetch);
+$('#initials-btn').on('click', aquireInitials);
+$('#submit-initials').on('click', submitBtn);
+$('#play-again-btn').on('click', playAgain);
 
-
-$('#back-btn-2').on('click', function() {
-    
-})
 
 
 
