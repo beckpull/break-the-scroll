@@ -242,25 +242,6 @@ questionSet.on("click", ".option", function () {
 
 $(".categories").on("click", ".btn-dif", startQuiz);
 
-// BECKY: ----------------------------------------------------------------------->
-
-// Setting timer/interval
-var timerInterval;
-var secondsLeft;
-
-function setTimer() {
-    secondsLeft = 120;
-
-    timerInterval = setInterval(function () {
-        if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time: ' + secondsLeft;
-            secondsLeft--;
-        } else {
-            clearInterval(timerInterval);
-            aquireInitials();
-        }
-    }, 1000)
-}
 
 function startQuiz() {
     // score = 0;
@@ -270,6 +251,27 @@ function startQuiz() {
     quizScreen.classList.remove('hide');
     tokenFetch();
 }
+
+
+// BECKY: ----------------------------------------------------------------------->
+
+// Setting timer/interval
+// var timerInterval;
+// var secondsLeft;
+
+// function setTimer() {
+//     secondsLeft = 120;
+
+//     timerInterval = setInterval(function () {
+//         if (secondsLeft >= 0) {
+//             timeEl.textContent = 'Time: ' + secondsLeft;
+//             secondsLeft--;
+//         } else {
+//             clearInterval(timerInterval);
+//             aquireInitials();
+//         }
+//     }, 1000)
+// }
 
 // First Bored API Fetch request
 function boredFetch() {
