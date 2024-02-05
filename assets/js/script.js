@@ -16,7 +16,17 @@ var scoreTable = document.querySelector('#show-score');
 var currentIndex = 0;
 let score = 0;
 
+
+
+
+
+
 // SYLVIA: ----------------------------------------------------------------------->
+
+
+
+
+
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
 
@@ -130,8 +140,19 @@ function getIconCategory(categoryId) {
     var iconoUrl = `${base}icono${categoryId}${extension}`;
 
     return iconoUrl;
+
+
+
+
+
 }
 // JORDAN: -----------------------------------------------------------------------> 
+
+
+
+
+
+
 //---------------- Variables ----------------//
 // Variable for quick production testing //
 // var nextQuestion = $("#nextQuestion");
@@ -248,10 +269,7 @@ function startQuiz() {
     catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
     tokenFetch();
-    // displayQuestion();
 }
-
-// My code:
 
 // First Bored API Fetch request
 function boredFetch() {
@@ -262,7 +280,6 @@ function boredFetch() {
         return response.json();
     })
     .then(function(data) {
-        // console.log(data);
         if (document.querySelector('.start-api') != undefined) {
             var indexBored1 = document.querySelector('.start-api');
             startDiv.removeChild(indexBored1);
