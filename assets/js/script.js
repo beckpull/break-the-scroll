@@ -15,6 +15,54 @@ var scoreTable = document.querySelector('#show-score');
 // Local variables
 var currentIndex = 0;
 let score = 0;
+// First Bored API Fetch request
+function boredFetch() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
+
+    fetch(requestURL) 
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        // console.log(data);
+        if (document.querySelector('.start-api') != undefined) {
+            var indexBored1 = document.querySelector('.start-api');
+            startDiv.removeChild(indexBored1);
+        }
+        var indexBored = document.createElement('div');
+        indexBored.setAttribute('class', 'start-api');
+        var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
+        indexBored.innerHTML = fetchHtml;
+        startDiv.appendChild(indexBored);
+    })
+}
+
+function getStart() {
+    boredFetch();
+    startScreen.classList.remove('hide');
+    catScreen.classList.add('hide');
+}
+
+// Calling function to get started
+getStart();
+
+// Setting timer/interval
+var timerInterval;
+var secondsLeft;
+
+function setTimer() {
+    secondsLeft = 120;
+
+    timerInterval = setInterval(function() {
+        if (secondsLeft >= 0) {
+            timeEl.textContent = 'Time: ' + secondsLeft;
+            secondsLeft--;
+        } else {
+            clearInterval(timerInterval);
+            aquirename();
+        }
+    }, 1000)
+}
 
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
@@ -135,54 +183,6 @@ function getIconCategory(categoryId) {
 
 // My code:
 
-// First Bored API Fetch request
-function boredFetch() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
-
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // console.log(data);
-        if (document.querySelector('.start-api') != undefined) {
-            var indexBored1 = document.querySelector('.start-api');
-            startDiv.removeChild(indexBored1);
-        }
-        var indexBored = document.createElement('div');
-        indexBored.setAttribute('class', 'start-api');
-        var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
-        indexBored.innerHTML = fetchHtml;
-        startDiv.appendChild(indexBored);
-    })
-}
-
-function getStart() {
-    boredFetch();
-    startScreen.classList.remove('hide');
-    catScreen.classList.add('hide');
-}
-
-// Calling function to get started
-getStart();
-
-// Setting timer/interval
-var timerInterval;
-var secondsLeft;
-
-function setTimer() {
-    secondsLeft = 120;
-
-    timerInterval = setInterval(function() {
-        if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time: ' + secondsLeft;
-            secondsLeft--;
-        } else {
-            clearInterval(timerInterval);
-            aquirename();
-        }
-    }, 1000)
-}
 
 // Aquire name functions
 function aquireName() {
