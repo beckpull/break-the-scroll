@@ -307,35 +307,3 @@ $('#play-again-btn').on('click', playAgain);
 
 
 
-// function startQuiz() {
-//     score = 0;
-//     currentIndex = 0;
-//     setTimer();
-//     startScreen.classList.add('hide');
-//     quizScreen.classList.remove('hide');
-//     displayQuestion();
-// }
-
-// function displayQuestion() {
-//     // reset page to nothing so we refresh with new information each time
-//     // run fetch request function for each question and populate quiz question/answer elements
-//     // need quiz functionality in second promise statement 
-//     // need to generate a random question within the category chosen
-//     triviaFetch();
-// }
-
-// // Open Trivia DB fetch request function
-// function triviaFetch() {
-//     var requestURL = ``; // needs url
-
-//     fetch(requestURL) 
-//     .then(function(response) {
-//         return response.json();
-//     })
-//     .then(function(data) {
-//         console.log(data);
-//         // All the things to do with the trivia data - 
-//         // most of our quiz functionality/populating things I would think
-//     })
-// }
-
