@@ -154,8 +154,6 @@ function getIconCategory(categoryId) {
 
 
 //---------------- Variables ----------------//
-// Variable for quick production testing //
-// var nextQuestion = $("#nextQuestion");
 
 // Variables to keep//
 var questionSet = $(".quiz-screen");
@@ -180,7 +178,6 @@ function tokenFetch() {
         })
         .then(function (data) {
             token = (data.token);
-            console.log(token);
             // Create title for quiz 
             // var quizMessageEl = document.createElement('h2');
             // quizMessageEl.classList.add('subtitle');
@@ -190,7 +187,7 @@ function tokenFetch() {
         })
 
 };
-
+// Function to fetch the trivia quiz//
 function triviaFetch() {
     var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
     console.log(requestURL);
@@ -202,7 +199,7 @@ function triviaFetch() {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            var correctAnswer = (data.results[0].correct_answer);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
 
@@ -211,15 +208,21 @@ function triviaFetch() {
 
             // Randomize Question Output Order//
             var rndQuestionGroup = [];
+
             for (var i = questionGroup.length; i > 0; i--) {
                 var spliceNumber = questionGroup.splice((Math.floor(Math.random() * i)), 1);
                 rndQuestionGroup.push(spliceNumber[0]);
             }
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+                           console.log(correctAnswer)
+                // Assign an ID to the correct question when displaying the buttons// 
+                if (rndQuestionGroup[j] === correctAnswer) {
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "correctOption" }))
+                } else {
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+                }
             }
-            console.log(rndQuestionGroup);
         }
         );
 };
@@ -234,15 +237,18 @@ generateToken.on("click", function (event) {
 });
 
 questionSet.on("click", ".option", function () {
-    questionGroup = [];
-    triviaFetch();
+    if ($(this).attr("id") === "correctOption") {
+        score++
+        triviaFetch();
+        questionGroup = [];
+    } else {
+        triviaFetch();
+        questionGroup = [];
+    }
+    console.log(score); 
 });
 
-//-- Console.log eventlistening prod testing --//
-// questionSet.on("click", ".option", function () {
-//     console.log($(this).attr("id") === "option-0");
-//     console.log(this)
-// });
+
 
 $(".categories").on("click", ".btn-dif", startQuiz);
 
