@@ -204,23 +204,27 @@ function triviaFetch() {
         .then(function (data) {
             console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
-            questionGroup.unshift((data.results[0].question), (data.results[0].correct_answer));
+            questionGroup.unshift(data.results[0].correct_answer);
 
             // Create Question <P> element with question//
             questionSet.append(question.html(questionGroup[0]).append(ulQuiz));
 
-            for (var i = 0; i < questionGroup.length - 1; i++) {
-                // Create Answers <Button> elements//
-                question.append($("<button>").attr({ "class": "option", "id": "option-" + i }))
+            // Randomize Question Output Order//
+            var rndQuestionGroup = [];
+            for (var i = questionGroup.length; i > 0; i--) {
+                var spliceNumber = questionGroup.splice((Math.floor(Math.random() * i)), 1);
+                rndQuestionGroup.push(spliceNumber[0]);
             }
-
-            $("#option-0").html(questionGroup[1]);
-            $("#option-1").html(questionGroup[2]);
-            $("#option-2").html(questionGroup[3]);
-            $("#option-3").html(questionGroup[4]);
-            console.log(questionGroup);
-        });
+            for (var j = 0; j < rndQuestionGroup.length; j++) {
+                // Create Answers <Button> elements//
+                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+            }
+            console.log(rndQuestionGroup);
+        }
+        );
 };
+
+
 
 //---------------- Event Listeners ----------------//
 // Search form event listener //
@@ -288,21 +292,21 @@ function aquireName() {
 function boredFetch() {
     var requestURL = `http://www.boredapi.com/api/activity/`;
 
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        if (document.querySelector('.start-api') != undefined) {
-            var indexBored1 = document.querySelector('.start-api');
-            startDiv.removeChild(indexBored1);
-        }
-        var indexBored = document.createElement('div');
-        indexBored.setAttribute('class', 'start-api');
-        var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
-        indexBored.innerHTML = fetchHtml;
-        startDiv.appendChild(indexBored);
-    })
+    fetch(requestURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (document.querySelector('.start-api') != undefined) {
+                var indexBored1 = document.querySelector('.start-api');
+                startDiv.removeChild(indexBored1);
+            }
+            var indexBored = document.createElement('div');
+            indexBored.setAttribute('class', 'start-api');
+            var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
+            indexBored.innerHTML = fetchHtml;
+            startDiv.appendChild(indexBored);
+        })
 }
 
 function getStart() {
@@ -314,7 +318,7 @@ function getStart() {
 // Calling function to get started
 getStart();
 
-function submitBtn(event) {  
+function submitBtn(event) {
     event.preventDefault();
     var userScore = {
         user: userName.value.trim(),
@@ -336,36 +340,36 @@ function saveScores(userScore) {
     localStorage.setItem('savedScores', JSON.stringify(scoresArray));
 }
 
-String.prototype.toSentenceCase= function() {
+String.prototype.toSentenceCase = function () {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
 }
 
 function getScores() {
-        scoreTable.innerHTML = `
+    scoreTable.innerHTML = `
                     <tr>
                         <td class="is-size-4"><strong>Users</strong></td>
                         <td class="is-size-4"><strong>Scores</strong></td>
                     </tr>
         `;
-        var savedScores = localStorage.getItem('savedScores');
-        if (savedScores) {
-            var scoresArray = JSON.parse(savedScores).sort((a, b) => b.score - a.score);
-            for (var i = 0; i < 11; i++) {
-                var tableRow = document.createElement('tr');
-                tableRow.classList.add('score-row');
-                if (scoresArray[i]) {
-                    var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
-                    var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
-                    tableRow.innerHTML = `
+    var savedScores = localStorage.getItem('savedScores');
+    if (savedScores) {
+        var scoresArray = JSON.parse(savedScores).sort((a, b) => b.score - a.score);
+        for (var i = 0; i < 11; i++) {
+            var tableRow = document.createElement('tr');
+            tableRow.classList.add('score-row');
+            if (scoresArray[i]) {
+                var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
+                var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
+                tableRow.innerHTML = `
                         <td>${userName}</td><td>${userScore}</td>
                     `;
-                    scoreTable.appendChild(tableRow);
+                scoreTable.appendChild(tableRow);
             }
         }
     };
 }
 
-$('#reset-btn').on('click', function() {
+$('#reset-btn').on('click', function () {
     localStorage.removeItem('savedScores');
     $('.score-row').remove();
 });
@@ -375,32 +379,32 @@ function displayScores() {
     nameScreen.classList.add('hide');
     scoresScreen.classList.remove('hide');
     getScores();
- }
+}
 
- // Second bored fetch request
+// Second bored fetch request
 function boredFetch2() {
     var requestURL = `http://www.boredapi.com/api/activity/`;
 
-    fetch(requestURL) 
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // console.log(data);
-        if (document.querySelector('.score-bored') != undefined) {
-            var scoreBored1 = document.querySelector('.score-bored');
-            funIdea.removeChild(scoreBored1);
-        }
-        var scoreBored = document.createElement('div');
-        scoreBored.setAttribute('class', 'score-bored');
-        var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
-        scoreBored.innerHTML = fetchHtml;
-        funIdea.appendChild(scoreBored);
-    })
+    fetch(requestURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            // console.log(data);
+            if (document.querySelector('.score-bored') != undefined) {
+                var scoreBored1 = document.querySelector('.score-bored');
+                funIdea.removeChild(scoreBored1);
+            }
+            var scoreBored = document.createElement('div');
+            scoreBored.setAttribute('class', 'score-bored');
+            var fetchHtml = `<p class="second-bored has-text-grey my-4 subtitle is-4"><i>${data.activity}!</i></p>`;
+            scoreBored.innerHTML = fetchHtml;
+            funIdea.appendChild(scoreBored);
+        })
 }
 
 
- function playAgain() {
+function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
     boredFetch();
