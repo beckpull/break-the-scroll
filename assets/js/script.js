@@ -182,11 +182,11 @@ function tokenFetch() {
             token = (data.token);
             console.log(token);
             // Create title for quiz 
-            var quizMessageEl = document.createElement('h2');
-            quizMessageEl.classList.add('subtitle');
-            quizMessageEl.textContent = 'Answer as many questions as you can!';
-            quizEl.appendChild(quizMessageEl);
-            triviaFetch()
+            // var quizMessageEl = document.createElement('h2');
+            // quizMessageEl.classList.add('subtitle');
+            // quizMessageEl.textContent = 'Answer as many questions as you can!';
+            // quizEl.appendChild(quizMessageEl);
+            triviaFetch();
         })
 
 };
@@ -199,15 +199,15 @@ function triviaFetch() {
             if (!response.ok) {
                 return triviaFetch();
             }
-            return response.json()
+            return response.json();
         })
         .then(function (data) {
-            console.log(data)
+            console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift((data.results[0].question), (data.results[0].correct_answer));
 
             // Create Question <P> element with question//
-            questionSet.append(question.html(questionGroup[0]).append(ulQuiz))
+            questionSet.append(question.html(questionGroup[0]).append(ulQuiz));
 
             for (var i = 0; i < questionGroup.length - 1; i++) {
                 // Create Answers <Button> elements//
@@ -244,11 +244,13 @@ $(".categories").on("click", ".btn-dif", startQuiz);
 
 
 function startQuiz() {
+    setTimer();
     // score = 0;
     // currentIndex = 0;
     // setTimer();
     catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
+
     tokenFetch();
 }
 
@@ -256,22 +258,31 @@ function startQuiz() {
 // BECKY: ----------------------------------------------------------------------->
 
 // Setting timer/interval
-// var timerInterval;
-// var secondsLeft;
+var timerInterval;
+var secondsLeft;
 
-// function setTimer() {
-//     secondsLeft = 120;
+function setTimer() {
+    secondsLeft = 15;
 
-//     timerInterval = setInterval(function () {
-//         if (secondsLeft >= 0) {
-//             timeEl.textContent = 'Time: ' + secondsLeft;
-//             secondsLeft--;
-//         } else {
-//             clearInterval(timerInterval);
-//             aquireInitials();
-//         }
-//     }, 1000)
-// }
+    timerInterval = setInterval(function () {
+        if (secondsLeft >= 0) {
+            timeEl.textContent = 'Time remaining: ' + secondsLeft;
+            secondsLeft--;
+        } else {
+            aquireName();
+        }
+    }, 1000)
+}
+
+
+// Aquire name functions
+function aquireName() {
+    clearInterval(timerInterval);
+    startScreen.classList.add('hide');
+    quizScreen.classList.add('hide');
+    nameScreen.classList.remove('hide');
+}
+
 
 // First Bored API Fetch request
 function boredFetch() {
@@ -302,32 +313,6 @@ function getStart() {
 
 // Calling function to get started
 getStart();
-
-// Setting timer/interval
-var timerInterval;
-var secondsLeft;
-
-function setTimer() {
-    secondsLeft = 120;
-
-    timerInterval = setInterval(function () {
-        if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time: ' + secondsLeft;
-            secondsLeft--;
-        } else {
-            clearInterval(timerInterval);
-            aquirename();
-        }
-    }, 1000)
-}
-
-// Aquire name functions
-function aquireName() {
-    clearInterval(timerInterval);
-    startScreen.classList.add('hide');
-    quizScreen.classList.add('hide');
-    nameScreen.classList.remove('hide');
-}
 
 function submitBtn(event) {  
     event.preventDefault();
@@ -426,7 +411,7 @@ $('#category-btn').on('click', () => { getCategories(1) });
 $('#submit-name').on('click', submitBtn);
 $('#back-btn').on('click', getStart);
 $('#suggest-btn').on('click', boredFetch);
-$('#name-btn').on('click', aquireName);
+// $('#name-btn').on('click', aquireName);
 $('#play-again-btn').on('click', playAgain);
 
 
