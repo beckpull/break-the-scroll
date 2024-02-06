@@ -215,11 +215,10 @@ function triviaFetch() {
             }
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                console.log(rndQuestionGroup)
-                console.log(correctAnswer)
+                           console.log(correctAnswer)
                 // Assign an ID to the correct question when displaying the buttons// 
                 if (rndQuestionGroup[j] === correctAnswer) {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "correctOption"}))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "correctOption" }))
                 } else {
                     question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
                 }
@@ -238,10 +237,15 @@ generateToken.on("click", function (event) {
 });
 
 questionSet.on("click", ".option", function () {
-   (this.$())
-    console.log(this.textContent)
-    triviaFetch();
-    questionGroup = [];
+    if ($(this).attr("id") === "correctOption") {
+        score++
+        triviaFetch();
+        questionGroup = [];
+    } else {
+        triviaFetch();
+        questionGroup = [];
+    }
+    console.log(score); 
 });
 
 
