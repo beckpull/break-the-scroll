@@ -42,7 +42,7 @@ function getCategories(pageNumber) {
 
             // Show the categories container
             var catMessageEl = document.createElement('h2');
-            catMessageEl.classList.add('subtitle');
+            catMessageEl.classList.add('title', 'has-text-weight-bold');
             catMessageEl.textContent = 'Choose a category to start the quiz';
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
@@ -62,14 +62,14 @@ function getCategories(pageNumber) {
                 
                 categoryEl.innerHTML = `
                     <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
-                    <br><span>${category.name}</span>
+                    <br><span class="has-text-info is-uppercase is-size-5 has-text-weight-bold">${category.name}</span>
                 `;
                 categoriesEl.appendChild(categoryEl);
             }
 
             // Create and add the pagination section
             var pagination = document.createElement('nav');
-            pagination.classList.add('pagination');
+            pagination.classList.add('pagination', 'navbar');
             pagination.innerHTML = `
                 <ul class="pagination-list">
                     <li>
@@ -127,7 +127,7 @@ function getIconCategory(categoryId) {
 
 // Variables to keep//
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question")
+var question = $("<p>").attr("class", "question has-text-info-dark")
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -151,7 +151,7 @@ function tokenFetch(difficulty, categoryId) {
             console.log(token);
             // Create title for quiz 
             var quizMessageEl = document.createElement('h2');
-            quizMessageEl.classList.add('subtitle');
+            quizMessageEl.classList.add('title', 'is-italic');
             quizMessageEl.textContent = 'Answer as many questions as you can!';
             quizEl.appendChild(quizMessageEl);
             triviaFetch(difficulty, categoryId);
@@ -214,7 +214,7 @@ function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
-        <h2 class="subtitle">Select the difficulty level</h2>
+        <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
         <div class="button-container">
             <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif">Easy</button>
             <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif">Medium</button>
@@ -236,7 +236,7 @@ function startQuiz(difficulty, categoryId) {
 
 // BECKY: ----------------------------------------------------------------------->
 
-let modalTimer;
+/* let modalTimer;
 Swal.fire({
 
     title: "5 second delay",
@@ -266,7 +266,7 @@ Swal.fire({
     if (result.dismiss === Swal.DismissReason.timer) {
         console.log("I was closed by the timer");
     }
-    });
+    }); */
 
 // First Bored API Fetch request
 function boredFetch() {

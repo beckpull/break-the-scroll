@@ -1,3 +1,7 @@
+body html {
+    height: 100%;
+}
+
 .hide {
     display: none;
 }
@@ -64,11 +68,6 @@ img {
     cursor: pointer;
 }
 
-.subtitle {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
 
 .start {
     /* entire start screen */
