@@ -236,23 +236,37 @@ function startQuiz(difficulty, categoryId) {
 
 // BECKY: ----------------------------------------------------------------------->
 
-// Setting timer/interval
-// var timerInterval;
-// var secondsLeft;
+let modalTimer;
+Swal.fire({
 
-// function setTimer() {
-//     secondsLeft = 120;
-
-//     timerInterval = setInterval(function () {
-//         if (secondsLeft >= 0) {
-//             timeEl.textContent = 'Time: ' + secondsLeft;
-//             secondsLeft--;
-//         } else {
-//             clearInterval(timerInterval);
-//             aquireInitials();
-//         }
-//     }, 1000)
-// }
+    title: "5 second delay",
+    width: 600,
+    padding: "3em",
+    color: "#716add",
+    background: "#fff url(/images/trees.png)",
+    backdrop: `
+      rgba(0,0,123,0.4)
+      url(./assets/img/giphy-2.gif)
+      left top
+      no-repeat
+    `,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector("b");
+        modalTimer = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+        }, 100);
+    },
+    willClose: () => {
+        clearInterval(modalInterval);
+    }
+    }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+    }
+    });
 
 // First Bored API Fetch request
 function boredFetch() {
