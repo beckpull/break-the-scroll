@@ -179,10 +179,10 @@ function tokenFetch() {
         .then(function (data) {
             token = (data.token);
             // Create title for quiz 
-            var quizMessageEl = document.createElement('h2');
-            quizMessageEl.classList.add('subtitle');
-            quizMessageEl.textContent = 'Answer as many questions as you can!';
-            quizEl.appendChild(quizMessageEl);
+            // var quizMessageEl = document.createElement('h2');
+            // quizMessageEl.classList.add('subtitle');
+            // quizMessageEl.textContent = 'Answer as many questions as you can!';
+            // quizEl.appendChild(quizMessageEl);
             triviaFetch()
         })
 
@@ -266,24 +266,6 @@ function startQuiz() {
 
 // BECKY: ----------------------------------------------------------------------->
 
-// Setting timer/interval
-// var timerInterval;
-// var secondsLeft;
-
-// function setTimer() {
-//     secondsLeft = 120;
-
-//     timerInterval = setInterval(function () {
-//         if (secondsLeft >= 0) {
-//             timeEl.textContent = 'Time: ' + secondsLeft;
-//             secondsLeft--;
-//         } else {
-//             clearInterval(timerInterval);
-//             aquireInitials();
-//         }
-//     }, 1000)
-// }
-
 // First Bored API Fetch request
 function boredFetch() {
     var requestURL = `http://www.boredapi.com/api/activity/`;
@@ -306,6 +288,7 @@ function boredFetch() {
 }
 
 function getStart() {
+    setTimer();
     boredFetch();
     startScreen.classList.remove('hide');
     catScreen.classList.add('hide');
@@ -319,15 +302,13 @@ var timerInterval;
 var secondsLeft;
 
 function setTimer() {
-    secondsLeft = 120;
-
+    secondsLeft = 15;
     timerInterval = setInterval(function () {
         if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time: ' + secondsLeft;
+            timeEl.textContent = 'Time remaining: ' + secondsLeft;
             secondsLeft--;
         } else {
-            clearInterval(timerInterval);
-            aquirename();
+            aquireName();
         }
     }, 1000)
 }
