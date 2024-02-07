@@ -22,9 +22,16 @@ let score = 0;
 
 
 // SYLVIA: ----------------------------------------------------------------------->
+/* var btnClicked;
+var btnId = document.querySelectorAll('.btn-cat');
+for(var i = 0; i < btnId.length; i++){
+    btnId[i].addEventListener('click', function(){
+        btnClicked = this.id;
+        console.log(btnClicked);
+        
+    });
 
-
-
+} */
 
 
 // Get categories element that will contain the categories
@@ -59,34 +66,24 @@ function getCategories(pageNumber) {
                 console.log(category);
 
                 var iconUrl = getIconCategory(category.id);
+                console.log(iconUrl);
 
-                categories[category.id] = {
+                category[category.id] = {
                     name: category.name,
                     iconUrl: iconUrl
                 };
 
+                console.log(categories);
+
                 var categoryEl = document.createElement('div');
                 categoryEl.classList.add('category');
+                
                 categoryEl.innerHTML = `
-                    <button class="btn-cat"><img src="${categories[category.id].iconUrl}" alt="${category.name} Icono"></button>
+                    <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
                     <br><span>${category.name}</span>
                 `;
-
                 categoriesEl.appendChild(categoryEl);
 
-                var btnCat = categoryEl.querySelector('.btn-cat');
-                btnCat.addEventListener('click', function () {
-                    categoriesEl.innerHTML = `
-                        <h2 class="subtitle">Select the difficulty level</h2>
-                        <div class="button-container">
-                            <button class="btn-dif">Easy</button>
-                            <button class="btn-dif">Medium</button>
-                            <button class="btn-dif">Hard</button>
-                        </div>
-                        
-                    `;
-                    // Add the logic to get the questions from the category the user chooses
-                });
 
             }
 
@@ -170,7 +167,7 @@ var questionGroup = [];
 
 //---------------- Fetch Requests ----------------//
 var quizEl = document.getElementById('quiz');
-function tokenFetch() {
+function tokenFetch(difficulty, categoryId) {
     var requestURL = "https://opentdb.com/api_token.php?command=request"
     fetch(requestURL, {
         // Need for future parameters? DELETE if not needed. 
@@ -186,22 +183,52 @@ function tokenFetch() {
             quizMessageEl.classList.add('subtitle');
             quizMessageEl.textContent = 'Answer as many questions as you can!';
             quizEl.appendChild(quizMessageEl);
-            triviaFetch()
+            triviaFetch(difficulty, categoryId);
         })
 
 };
 
-function triviaFetch() {
-    var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
+
+async function ejemplo(difficulty, categoryId) {
+    var requestURL = "https://opentdb.com/api_token.php?command=request"
+    var response = await fetch(requestURL, {
+        // Need for future parameters? DELETE if not needed. 
+    });
+    var data = await response.json();
+    token = (data.token);
+    console.log(token);
+    // Create title for quiz 
+    var quizMessageEl = document.createElement('h2');
+    quizMessageEl.classList.add('subtitle');
+    quizMessageEl.textContent = 'Answer as many questions as you can!';
+    quizEl.appendChild(quizMessageEl);
+    triviaFetch(difficulty, categoryId);
+        
+
+};
+
+function triviaFetch(difficulty, categoryId) {
+    //var buttonsClicked = document.querySelectorAll('.btn-cat');
+    //console.log(buttonsClicked);
+    //var categoryId = 9; // Initial category ID
+
+    //for (var i = 9; i <= 32; i++) {
+        /* buttonsClicked[i].addEventListener('click', function(){
+            console.log("Button clicked!!!");
+            console.log(this.id);
+            categoryId = parseInt(this.id); // Update the category ID based on the button clicked
+            console.log("Updated category ID:", categoryId);
+        }); */
+    //}
+
+    var requestURL = "https://opentdb.com/api.php?amount=10&category=" + categoryId + "&difficulty=" + difficulty +"&token=" + token;
     console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) {
-                return triviaFetch();
-            }
-            return response.json()
+            return response.json();
         })
         .then(function (data) {
+            console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
 
@@ -243,16 +270,41 @@ questionSet.on("click", ".option", function () {
 //     console.log(this)
 // });
 
-$(".categories").on("click", ".btn-dif", startQuiz);
 
 
-function startQuiz() {
+//$("#categories").on("click", ".btn-dif", startQuiz);
+/* $("#categories button").on("click", 
+}); */
+function clickCategory(categoryId) {
+    var categoriesEl = document.getElementById("categories");
+
+    categoriesEl.innerHTML = `
+        <h2 class="subtitle">Select the difficulty level</h2>
+        <div class="button-container">
+            <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif">Easy</button>
+            <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif">Medium</button>
+            <button onClick="startQuiz('hard', ${categoryId})" class="btn-dif">Hard</button>
+        </div>
+        
+    `;
+        // Add the logic to get the questions from the category the user chooses
+    
+    alert(categoryId);
+
+}
+
+
+
+function startQuiz(difficulty, categoryId) {
     // score = 0;
     // currentIndex = 0;
     // setTimer();
     catScreen.classList.add('hide');
+    console.log("Pase por aqui 1")
     quizScreen.classList.remove('hide');
-    tokenFetch();
+    console.log("Pase por aqui 2")
+    tokenFetch(difficulty, categoryId);
+    console.log("Pase por aqui 3")
 }
 
 
