@@ -140,15 +140,14 @@ var questionGroup = [];
 var quizEl = document.getElementById('quiz');
 function tokenFetch(difficulty, categoryId) {
     var requestURL = "https://opentdb.com/api_token.php?command=request"
-    fetch(requestURL, {
-        // Need for future parameters? DELETE if not needed. 
-    })
+    fetch(requestURL)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
             token = (data.token);
             triviaFetch(difficulty, categoryId);
+            startModal();
         })
 
 };
@@ -209,11 +208,11 @@ questionSet.on("click", ".option", function () {
     }
 
     //Show Modal Right/Wrong//
-
+    startModal()
     //Add 5sec to timer//
 
     //Modal stay for 5 sec//
-
+    secondsLeft += 5
     //Close modal and run through next functions//
 
 
@@ -253,37 +252,39 @@ function startQuiz(difficulty, categoryId) {
 
 // BECKY: ----------------------------------------------------------------------->
 
-let modalTimer;
-Swal.fire({
+function startModal() {
+    let modalTimer;
+    Swal.fire({
 
-    title: "5 second delay",
-    width: 600,
-    padding: "3em",
-    color: "#716add",
-    background: "#fff url(/images/trees.png)",
-    backdrop: `
+        title: "5 second delay",
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background: "#fff url(/images/trees.png)",
+        backdrop: `
       rgba(0,0,123,0.4)
       url(./assets/img/giphy-2.gif)
       left top
       no-repeat
     `,
-    timer: 5000,
-    timerProgressBar: true,
-    didOpen: () => {
-        Swal.showLoading();
-        const timer = Swal.getPopup().querySelector("b");
-        modalTimer = setInterval(() => {
-            timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 100);
-    },
-    willClose: () => {
-        clearInterval(modalTimer);
-    }
-}).then((result) => {
-    if (result.dismiss === Swal.DismissReason.timer) {
-        console.log("I was closed by the timer");
-    }
-});
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            modalTimer = setInterval(() => {
+                timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+        },
+        willClose: () => {
+            clearInterval(modalTimer);
+        }
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+        }
+    })
+};
 
 // First Bored API Fetch request
 function boredFetch() {
