@@ -62,14 +62,14 @@ function getCategories(pageNumber) {
                 
                 categoryEl.innerHTML = `
                     <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
-                    <br><span class="has-text-info is-uppercase is-size-5 has-text-weight-bold">${category.name}</span>
+                    <br><span class="has-text-link is-uppercase is-size-6 has-text-weight-bold">${category.name}</span>
                 `;
                 categoriesEl.appendChild(categoryEl);
             }
 
             // Create and add the pagination section
             var pagination = document.createElement('nav');
-            pagination.classList.add('pagination', 'navbar');
+            pagination.classList.add('pagination', 'navbar', 'is-centered');
             pagination.innerHTML = `
                 <ul class="pagination-list">
                     <li>
@@ -127,7 +127,7 @@ function getIconCategory(categoryId) {
 
 // Variables to keep//
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark")
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-4");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -183,7 +183,7 @@ function triviaFetch(difficulty, categoryId) {
             }
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "option-" + j }))
             }
             console.log(rndQuestionGroup);
         }
@@ -216,9 +216,9 @@ function clickCategory(categoryId) {
     categoriesEl.innerHTML = `
         <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
         <div class="button-container">
-            <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif">Easy</button>
-            <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif">Medium</button>
-            <button onClick="startQuiz('hard', ${categoryId})" class="btn-dif">Hard</button>
+            <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Easy</button>
+            <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Medium</button>
+            <button onClick="startQuiz('hard', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Hard</button>
         </div>
         
     `;
