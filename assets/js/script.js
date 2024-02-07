@@ -16,23 +16,7 @@ var scoreTable = document.querySelector('#show-score');
 var currentIndex = 0;
 let score = 0;
 
-
-
-
-
-
-// SYLVIA: ----------------------------------------------------------------------->
-/* var btnClicked;
-var btnId = document.querySelectorAll('.btn-cat');
-for(var i = 0; i < btnId.length; i++){
-    btnId[i].addEventListener('click', function(){
-        btnClicked = this.id;
-        console.log(btnClicked);
-        
-    });
-
-} */
-
+// SILVIA: ----------------------------------------------------------------------->
 
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
@@ -73,8 +57,6 @@ function getCategories(pageNumber) {
                     iconUrl: iconUrl
                 };
 
-                console.log(categories);
-
                 var categoryEl = document.createElement('div');
                 categoryEl.classList.add('category');
                 
@@ -83,8 +65,6 @@ function getCategories(pageNumber) {
                     <br><span>${category.name}</span>
                 `;
                 categoriesEl.appendChild(categoryEl);
-
-
             }
 
             // Create and add the pagination section
@@ -115,7 +95,6 @@ function getCategories(pageNumber) {
                     </li>
                 </ul>
             `;
-
             categoriesEl.appendChild(pagination);
 
         })
@@ -127,22 +106,14 @@ function getCategories(pageNumber) {
 }
 // Function to get the URL of the icon for a category
 function getIconCategory(categoryId) {
-    // Ruta base de la carpeta que contiene las imágenes
     var base = './assets/img/categories/';
-
-    // Extensión de las imágenes (asegúrate de que coincida con la extensión real)
     var extension = '.png';
-
-    // Construir la URL completa utilizando la ruta base, el índice de la categoría y la extensión
+    // Url for getting the icon of the category
     var iconoUrl = `${base}icono${categoryId}${extension}`;
-
     return iconoUrl;
-
-
-
-
-
 }
+
+
 // JORDAN: -----------------------------------------------------------------------> 
 
 
@@ -188,38 +159,7 @@ function tokenFetch(difficulty, categoryId) {
 
 };
 
-
-async function ejemplo(difficulty, categoryId) {
-    var requestURL = "https://opentdb.com/api_token.php?command=request"
-    var response = await fetch(requestURL, {
-        // Need for future parameters? DELETE if not needed. 
-    });
-    var data = await response.json();
-    token = (data.token);
-    console.log(token);
-    // Create title for quiz 
-    var quizMessageEl = document.createElement('h2');
-    quizMessageEl.classList.add('subtitle');
-    quizMessageEl.textContent = 'Answer as many questions as you can!';
-    quizEl.appendChild(quizMessageEl);
-    triviaFetch(difficulty, categoryId);
-        
-
-};
-
 function triviaFetch(difficulty, categoryId) {
-    //var buttonsClicked = document.querySelectorAll('.btn-cat');
-    //console.log(buttonsClicked);
-    //var categoryId = 9; // Initial category ID
-
-    //for (var i = 9; i <= 32; i++) {
-        /* buttonsClicked[i].addEventListener('click', function(){
-            console.log("Button clicked!!!");
-            console.log(this.id);
-            categoryId = parseInt(this.id); // Update the category ID based on the button clicked
-            console.log("Updated category ID:", categoryId);
-        }); */
-    //}
 
     var requestURL = "https://opentdb.com/api.php?amount=10&category=" + categoryId + "&difficulty=" + difficulty +"&token=" + token;
     console.log(requestURL);
@@ -251,7 +191,6 @@ function triviaFetch(difficulty, categoryId) {
 };
 
 
-
 //---------------- Event Listeners ----------------//
 // Search form event listener //
 
@@ -271,10 +210,6 @@ questionSet.on("click", ".option", function () {
 // });
 
 
-
-//$("#categories").on("click", ".btn-dif", startQuiz);
-/* $("#categories button").on("click", 
-}); */
 function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
@@ -287,24 +222,15 @@ function clickCategory(categoryId) {
         </div>
         
     `;
-        // Add the logic to get the questions from the category the user chooses
-    
-    alert(categoryId);
-
 }
-
-
 
 function startQuiz(difficulty, categoryId) {
     // score = 0;
     // currentIndex = 0;
     // setTimer();
     catScreen.classList.add('hide');
-    console.log("Pase por aqui 1")
     quizScreen.classList.remove('hide');
-    console.log("Pase por aqui 2")
     tokenFetch(difficulty, categoryId);
-    console.log("Pase por aqui 3")
 }
 
 
