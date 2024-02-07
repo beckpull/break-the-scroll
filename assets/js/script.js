@@ -190,6 +190,7 @@ function tokenFetch() {
 // Function to fetch the trivia quiz//
 function triviaFetch() {
     var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
+    console.log(token)
     console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
