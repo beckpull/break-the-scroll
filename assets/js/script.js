@@ -59,7 +59,7 @@ function getCategories(pageNumber) {
 
                 var categoryEl = document.createElement('div');
                 categoryEl.classList.add('category');
-                
+
                 categoryEl.innerHTML = `
                     <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
                     <br><span>${category.name}</span>
@@ -148,26 +148,24 @@ function tokenFetch(difficulty, categoryId) {
         })
         .then(function (data) {
             token = (data.token);
-            console.log(token);
-            // Create title for quiz 
-            var quizMessageEl = document.createElement('h2');
-            quizMessageEl.classList.add('subtitle');
-            quizMessageEl.textContent = 'Answer as many questions as you can!';
-            quizEl.appendChild(quizMessageEl);
             triviaFetch(difficulty, categoryId);
         })
 
 };
 
+//Function to fetch the trivia quiz// 
 function triviaFetch(difficulty, categoryId) {
-
-    var requestURL = "https://opentdb.com/api.php?amount=10&category=" + categoryId + "&difficulty=" + difficulty +"&token=" + token;
-    console.log(requestURL);
+    var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
+    // var requestURL = "https://opentdb.com/api.php?amount=1&category=" + categoryId + "&difficulty=" + difficulty + "&token=" + token;
     fetch(requestURL)
         .then(function (response) {
+            if (!response.ok) {
+                return triviaFetch();
+            }
             return response.json();
         })
         .then(function (data) {
+            var correctAnswer = (data.results[0].correct_answer);
             console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
@@ -177,15 +175,22 @@ function triviaFetch(difficulty, categoryId) {
 
             // Randomize Question Output Order//
             var rndQuestionGroup = [];
+
             for (var i = questionGroup.length; i > 0; i--) {
                 var spliceNumber = questionGroup.splice((Math.floor(Math.random() * i)), 1);
                 rndQuestionGroup.push(spliceNumber[0]);
             }
+            console.log(correctAnswer)
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+
+                // Assign an ID to the correct question when displaying the buttons// 
+                if (rndQuestionGroup[j] === correctAnswer) {
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "correctOption" }))
+                } else {
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
+                }
             }
-            console.log(rndQuestionGroup);
         }
         );
 };
@@ -199,15 +204,27 @@ generateToken.on("click", function (event) {
 });
 
 questionSet.on("click", ".option", function () {
-    questionGroup = [];
+    if ($(this).attr("id") === "correctOption") {
+        score++
+    }
+
+    //Show Modal Right/Wrong//
+
+    //Add 5sec to timer//
+
+    //Modal stay for 5 sec//
+
+    //Close modal and run through next functions//
+
+
+
+
     triviaFetch();
+    questionGroup = [];
+    console.log(score);
 });
 
-//-- Console.log eventlistening prod testing --//
-// questionSet.on("click", ".option", function () {
-//     console.log($(this).attr("id") === "option-0");
-//     console.log(this)
-// });
+
 
 
 function clickCategory(categoryId) {
@@ -227,7 +244,7 @@ function clickCategory(categoryId) {
 function startQuiz(difficulty, categoryId) {
     // score = 0;
     // currentIndex = 0;
-    // setTimer();
+    setTimer();
     catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
     tokenFetch(difficulty, categoryId);
@@ -256,17 +273,17 @@ Swal.fire({
         Swal.showLoading();
         const timer = Swal.getPopup().querySelector("b");
         modalTimer = setInterval(() => {
-        timer.textContent = `${Swal.getTimerLeft()}`;
+            timer.textContent = `${Swal.getTimerLeft()}`;
         }, 100);
     },
     willClose: () => {
-        clearInterval(modalInterval);
+        clearInterval(modalTimer);
     }
-    }).then((result) => {
+}).then((result) => {
     if (result.dismiss === Swal.DismissReason.timer) {
         console.log("I was closed by the timer");
     }
-    });
+});
 
 // First Bored API Fetch request
 function boredFetch() {
