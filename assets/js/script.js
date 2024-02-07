@@ -16,16 +16,7 @@ var scoreTable = document.querySelector('#show-score');
 var currentIndex = 0;
 let score = 0;
 
-
-
-
-
-
-// SYLVIA: ----------------------------------------------------------------------->
-
-
-
-
+// SILVIA: ----------------------------------------------------------------------->
 
 // Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
@@ -59,35 +50,21 @@ function getCategories(pageNumber) {
                 console.log(category);
 
                 var iconUrl = getIconCategory(category.id);
+                console.log(iconUrl);
 
-                categories[category.id] = {
+                category[category.id] = {
                     name: category.name,
                     iconUrl: iconUrl
                 };
 
                 var categoryEl = document.createElement('div');
                 categoryEl.classList.add('category');
+                
                 categoryEl.innerHTML = `
-                    <button class="btn-cat"><img src="${categories[category.id].iconUrl}" alt="${category.name} Icono"></button>
+                    <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
                     <br><span>${category.name}</span>
                 `;
-
                 categoriesEl.appendChild(categoryEl);
-
-                var btnCat = categoryEl.querySelector('.btn-cat');
-                btnCat.addEventListener('click', function () {
-                    categoriesEl.innerHTML = `
-                        <h2 class="subtitle">Select the difficulty level</h2>
-                        <div class="button-container">
-                            <button class="btn-dif">Easy</button>
-                            <button class="btn-dif">Medium</button>
-                            <button class="btn-dif">Hard</button>
-                        </div>
-                        
-                    `;
-                    // Add the logic to get the questions from the category the user chooses
-                });
-
             }
 
             // Create and add the pagination section
@@ -118,7 +95,6 @@ function getCategories(pageNumber) {
                     </li>
                 </ul>
             `;
-
             categoriesEl.appendChild(pagination);
 
         })
@@ -130,22 +106,14 @@ function getCategories(pageNumber) {
 }
 // Function to get the URL of the icon for a category
 function getIconCategory(categoryId) {
-    // Ruta base de la carpeta que contiene las imágenes
     var base = './assets/img/categories/';
-
-    // Extensión de las imágenes (asegúrate de que coincida con la extensión real)
     var extension = '.png';
-
-    // Construir la URL completa utilizando la ruta base, el índice de la categoría y la extensión
+    // Url for getting the icon of the category
     var iconoUrl = `${base}icono${categoryId}${extension}`;
-
     return iconoUrl;
-
-
-
-
-
 }
+
+
 // JORDAN: -----------------------------------------------------------------------> 
 
 
@@ -154,6 +122,8 @@ function getIconCategory(categoryId) {
 
 
 //---------------- Variables ----------------//
+// Variable for quick production testing //
+// var nextQuestion = $("#nextQuestion");
 
 // Variables to keep//
 var questionSet = $(".quiz-screen");
@@ -168,7 +138,7 @@ var questionGroup = [];
 
 //---------------- Fetch Requests ----------------//
 var quizEl = document.getElementById('quiz');
-function tokenFetch() {
+function tokenFetch(difficulty, categoryId) {
     var requestURL = "https://opentdb.com/api_token.php?command=request"
     fetch(requestURL, {
         // Need for future parameters? DELETE if not needed. 
@@ -178,28 +148,27 @@ function tokenFetch() {
         })
         .then(function (data) {
             token = (data.token);
+            console.log(token);
             // Create title for quiz 
-            // var quizMessageEl = document.createElement('h2');
-            // quizMessageEl.classList.add('subtitle');
-            // quizMessageEl.textContent = 'Answer as many questions as you can!';
-            // quizEl.appendChild(quizMessageEl);
-            triviaFetch()
+            var quizMessageEl = document.createElement('h2');
+            quizMessageEl.classList.add('subtitle');
+            quizMessageEl.textContent = 'Answer as many questions as you can!';
+            quizEl.appendChild(quizMessageEl);
+            triviaFetch(difficulty, categoryId);
         })
 
 };
-// Function to fetch the trivia quiz//
-function triviaFetch() {
-    var requestURL = "https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&token=" + token;
+
+function triviaFetch(difficulty, categoryId) {
+
+    var requestURL = "https://opentdb.com/api.php?amount=10&category=" + categoryId + "&difficulty=" + difficulty +"&token=" + token;
     console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) {
-                return triviaFetch();
-            }
-            return response.json()
+            return response.json();
         })
         .then(function (data) {
-            var correctAnswer = (data.results[0].correct_answer);
+            console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
 
@@ -208,25 +177,18 @@ function triviaFetch() {
 
             // Randomize Question Output Order//
             var rndQuestionGroup = [];
-
             for (var i = questionGroup.length; i > 0; i--) {
                 var spliceNumber = questionGroup.splice((Math.floor(Math.random() * i)), 1);
                 rndQuestionGroup.push(spliceNumber[0]);
             }
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                           console.log(correctAnswer)
-                // Assign an ID to the correct question when displaying the buttons// 
-                if (rndQuestionGroup[j] === correctAnswer) {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "correctOption" }))
-                } else {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
-                }
+                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option", "id": "option-" + j }))
             }
+            console.log(rndQuestionGroup);
         }
         );
 };
-
 
 
 //---------------- Event Listeners ----------------//
@@ -237,33 +199,60 @@ generateToken.on("click", function (event) {
 });
 
 questionSet.on("click", ".option", function () {
-    if ($(this).attr("id") === "correctOption") {
-        score++
-        triviaFetch();
-        questionGroup = [];
-    } else {
-        triviaFetch();
-        questionGroup = [];
-    }
-    console.log(score); 
+    questionGroup = [];
+    triviaFetch();
 });
 
+//-- Console.log eventlistening prod testing --//
+// questionSet.on("click", ".option", function () {
+//     console.log($(this).attr("id") === "option-0");
+//     console.log(this)
+// });
 
 
-$(".categories").on("click", ".btn-dif", startQuiz);
+function clickCategory(categoryId) {
+    var categoriesEl = document.getElementById("categories");
 
+    categoriesEl.innerHTML = `
+        <h2 class="subtitle">Select the difficulty level</h2>
+        <div class="button-container">
+            <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif">Easy</button>
+            <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif">Medium</button>
+            <button onClick="startQuiz('hard', ${categoryId})" class="btn-dif">Hard</button>
+        </div>
+        
+    `;
+}
 
-function startQuiz() {
+function startQuiz(difficulty, categoryId) {
     // score = 0;
     // currentIndex = 0;
     // setTimer();
     catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
-    tokenFetch();
+    tokenFetch(difficulty, categoryId);
 }
 
 
 // BECKY: ----------------------------------------------------------------------->
+
+// Setting timer/interval
+// var timerInterval;
+// var secondsLeft;
+
+// function setTimer() {
+//     secondsLeft = 120;
+
+//     timerInterval = setInterval(function () {
+//         if (secondsLeft >= 0) {
+//             timeEl.textContent = 'Time: ' + secondsLeft;
+//             secondsLeft--;
+//         } else {
+//             clearInterval(timerInterval);
+//             aquireInitials();
+//         }
+//     }, 1000)
+// }
 
 // First Bored API Fetch request
 function boredFetch() {
@@ -287,7 +276,6 @@ function boredFetch() {
 }
 
 function getStart() {
-    setTimer();
     boredFetch();
     startScreen.classList.remove('hide');
     catScreen.classList.add('hide');
@@ -301,13 +289,15 @@ var timerInterval;
 var secondsLeft;
 
 function setTimer() {
-    secondsLeft = 15;
+    secondsLeft = 120;
+
     timerInterval = setInterval(function () {
         if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time remaining: ' + secondsLeft;
+            timeEl.textContent = 'Time: ' + secondsLeft;
             secondsLeft--;
         } else {
-            aquireName();
+            clearInterval(timerInterval);
+            aquirename();
         }
     }, 1000)
 }
