@@ -123,9 +123,6 @@ function getIconCategory(categoryId) {
 
 
 //---------------- Variables ----------------//
-// Variable for quick production testing //
-// var nextQuestion = $("#nextQuestion");
-
 // Variables to keep//
 var questionSet = $(".quiz-screen");
 var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
@@ -135,11 +132,14 @@ var answerBtn = $("<button>")
 var generateToken = $("#generateToken");
 var resetToekn = $("#resetToken");
 var token;
+var difficulty;
+var category;
 var questionGroup = [];
+var categoryId;
 
 //---------------- Fetch Requests ----------------//
 var quizEl = document.getElementById('quiz');
-function tokenFetch(difficulty, categoryId) {
+function tokenFetch() {
     var requestURL = "https://opentdb.com/api_token.php?command=request"
     fetch(requestURL)
         .then(function (response) {
@@ -153,21 +153,23 @@ function tokenFetch(difficulty, categoryId) {
             quizMessageEl.classList.add('title', 'is-italic');
             quizMessageEl.textContent = 'Answer as many questions as you can!';
             headerEl.appendChild(quizMessageEl);
-            triviaFetch(difficulty, categoryId);
+            triviaFetch();
             startModal();
         })
 
 };
 
 //Function to fetch the trivia quiz// 
-function triviaFetch(difficulty, categoryId) {
-    var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
-    // var requestURL = "https://opentdb.com/api.php?amount=1&category=" + categoryId + "&difficulty=" + difficulty + "&token=" + token;
+function triviaFetch() {
+    // var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
+    var requestURL = "https://opentdb.com/api.php?amount=1&category=" + category + "&difficulty=" + difficulty + "&token=" + token;
+    console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) {
+            if (!response.ok) { 
                 return triviaFetch();
             }
+            console.log(requestURL);
             return response.json();
         })
         .then(function (data) {
@@ -189,7 +191,6 @@ function triviaFetch(difficulty, categoryId) {
             console.log(correctAnswer)
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 ", "id": "option-" + j }))
 
                 // Assign an ID to the correct question when displaying the buttons// 
                 if (rndQuestionGroup[j] === correctAnswer) {
@@ -234,27 +235,42 @@ questionSet.on("click", ".option", function () {
 
 
 
+
 function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
         <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
         <div class="button-container">
-            <button onClick="startQuiz('easy', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Easy</button>
-            <button onClick="startQuiz('medium', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Medium</button>
-            <button onClick="startQuiz('hard', ${categoryId})" class="btn-dif button is-link is-rounded my-4">Hard</button>
+            <button class="btn-dif button is-link is-rounded my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
+            <button class="btn-dif button is-link is-rounded my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
+            <button class="btn-dif button is-link is-rounded my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
         </div>
         
     `;
 }
 
-function startQuiz(difficulty, categoryId) {
+$(document).on("click", ".btn-dif", function (event) {
+    event.preventDefault();
+    difficulty = $(this).attr("data-difficulty");
+    category = $(this).attr("data-category");
+    console.log(difficulty);
+    console.log(category);
+    startQuiz();
+});
+
+
+
+
+console.log(category);
+
+function startQuiz() {
     // score = 0;
     // currentIndex = 0;
     setTimer();
     catScreen.classList.add('hide');
     quizScreen.classList.remove('hide');
-    tokenFetch(difficulty, categoryId);
+    tokenFetch();
 }
 
 
@@ -336,7 +352,7 @@ function setTimer() {
             secondsLeft--;
         } else {
             clearInterval(timerInterval);
-            aquirename();
+            aquireName();
         }
     }, 1000)
 }
