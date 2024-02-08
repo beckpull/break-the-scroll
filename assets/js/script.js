@@ -257,9 +257,9 @@ function startQuiz(difficulty, categoryId) {
 
 
 // BECKY: ----------------------------------------------------------------------->
-
-/* let modalTimer;
-Swal.fire({
+function startModal() {
+    let modalTimer;
+    Swal.fire({
 
         title: "5 second delay",
         width: 600,
@@ -459,6 +459,3 @@ $('#play-again-btn').on('click', playAgain);
 // `
 // <progress class="progress is-success" value="60" max="100">60%</progress>
 // `
-
-
-
