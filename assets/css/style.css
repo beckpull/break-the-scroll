@@ -63,6 +63,13 @@ img {
     padding-top: 5vw
 }
 
+.categories{
+    /* entire start screen */
+    padding-top: 1vw;
+    padding-bottom: 3vw;
+}
+
+
 .start-title {
     /* start title only */
     padding-bottom: 7vw;
@@ -85,6 +92,10 @@ img {
 
 #reset-btn {
     margin-top: 25vw;
+}
+
+.btn-dif:hover {
+    /* ... */
 }
 
 /* My Additions: */
