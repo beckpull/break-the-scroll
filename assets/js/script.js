@@ -258,7 +258,7 @@ function startQuiz(difficulty, categoryId) {
 
 // BECKY: ----------------------------------------------------------------------->
 
-/* let modalTimer;
+let modalTimer;
 Swal.fire({
 
         title: "5 second delay",
