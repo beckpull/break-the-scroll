@@ -165,9 +165,10 @@ function triviaFetch(difficulty, categoryId) {
     // var requestURL = "https://opentdb.com/api.php?amount=1&category=" + categoryId + "&difficulty=" + difficulty + "&token=" + token;
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) {
+            if (!response.ok) { 
                 return triviaFetch();
             }
+            console.log(requestURL);
             return response.json();
         })
         .then(function (data) {
@@ -336,7 +337,7 @@ function setTimer() {
             secondsLeft--;
         } else {
             clearInterval(timerInterval);
-            aquirename();
+            aquireName();
         }
     }, 1000)
 }
