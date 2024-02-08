@@ -11,6 +11,7 @@ var scoresScreen = document.querySelector('.scores-page');
 var funIdea = document.querySelector('#scores-idea');
 var numFetch = document.querySelector('#num-fetch');
 var scoreTable = document.querySelector('#show-score');
+var headerEl = document.querySelector('header');
 
 // Local variables
 var currentIndex = 0;
@@ -127,7 +128,7 @@ function getIconCategory(categoryId) {
 
 // Variables to keep//
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark is-size-4");
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -150,10 +151,10 @@ function tokenFetch(difficulty, categoryId) {
             token = (data.token);
             console.log(token);
             // Create title for quiz 
-            var quizMessageEl = document.createElement('h2');
+            var quizMessageEl = document.createElement('h1');
             quizMessageEl.classList.add('title', 'is-italic');
             quizMessageEl.textContent = 'Answer as many questions as you can!';
-            quizEl.appendChild(quizMessageEl);
+            headerEl.appendChild(quizMessageEl);
             triviaFetch(difficulty, categoryId);
         })
 
@@ -183,7 +184,7 @@ function triviaFetch(difficulty, categoryId) {
             }
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
-                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "option-" + j }))
+                question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 ", "id": "option-" + j }))
             }
             console.log(rndQuestionGroup);
         }
@@ -236,7 +237,7 @@ function startQuiz(difficulty, categoryId) {
 
 // BECKY: ----------------------------------------------------------------------->
 
-/* let modalTimer;
+let modalTimer;
 Swal.fire({
 
     title: "5 second delay",
@@ -266,7 +267,7 @@ Swal.fire({
     if (result.dismiss === Swal.DismissReason.timer) {
         console.log("I was closed by the timer");
     }
-    }); */
+    }); 
 
 // First Bored API Fetch request
 function boredFetch() {
