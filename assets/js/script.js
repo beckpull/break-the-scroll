@@ -166,9 +166,10 @@ function triviaFetch() {
     console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) {
+            if (!response.ok) { 
                 return triviaFetch();
             }
+            console.log(requestURL);
             return response.json();
         })
         .then(function (data) {
@@ -351,7 +352,7 @@ function setTimer() {
             secondsLeft--;
         } else {
             clearInterval(timerInterval);
-            aquirename();
+            aquireName();
         }
     }, 1000)
 }
