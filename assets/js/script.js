@@ -171,7 +171,7 @@ function tokenFetch() {
 
 };
 
-//Function to fetch the trivia quiz// 
+// Function to fetch the trivia quiz// 
 function triviaFetch() {
     var requestURL = "https://opentdb.com/api.php?amount=1&category=" + category + "&difficulty=" + difficulty + "&token=" + token;
     fetch(requestURL)
@@ -368,6 +368,8 @@ function getScores() {
         }
     };
 }
+
+// SCORE PAGE FUNCTIONS:
 
 // Show high score screen and call second boredFetch request
 function displayScores() {
