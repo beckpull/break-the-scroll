@@ -27,31 +27,19 @@ img {
 }
 
 .content {
-    position: relative;
-    height: 100vh;
-    z-index: 1;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    background-color: #FFDD95;  
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: calc(100vw + 60px);
+    height: calc(100vh + 60px);
+    z-index: -1;
+    filter: blur(0px);
 }
 
-.content::before {
-    content: "";
-    background-image: url(/assets/img/categories/bgs.jpg);
-    background-size: cover;
-    background-position: center;
-    opacity: 0.4; /* Adjust this to change the transparency of the image */
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -1;  
-}
 
 .content h1 {
     font-size: 3em;
-    color: #fff;
     padding-top: 10vh;
 }
 
@@ -102,6 +90,8 @@ img {
 .start-title {
     /* start title only */
     padding-bottom: 7vw;
+    background-color: hsl(0, 0%, 29%);
+    color: #eee;
 }
 
 .start-btns {
