@@ -72,7 +72,7 @@ function getCategories(pageNumber) {
 
             // Show the categories container
             var catMessageEl = document.createElement('h2');
-            catMessageEl.classList.add('title', 'has-text-weight-bold');
+            catMessageEl.classList.add('title', 'has-text-weight-bold','is-1');
             catMessageEl.textContent = 'Choose a category to start the quiz';
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
@@ -150,11 +150,11 @@ function clickCategory(categoryId) {
     categoriesEl.innerHTML = `
         <div class="container is-flex is-justify-content-center">
             <div class="cat-levels has-text-centered">
-                <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
+                <h2 class="title has-text-weight-bold is-2">Select the difficulty level</h2>
                 <div class="button-container">
-                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
-                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
-                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
                 </div>
             </div>
         </div>
@@ -174,7 +174,7 @@ $(document).on("click", ".btn-dif", function (event) {
 // Quiz variables
 var quizEl = document.getElementById('quiz');
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark is-size-2 button-container");
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-3 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
