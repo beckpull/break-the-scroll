@@ -299,7 +299,7 @@ questionSet.on("click", ".option", function () {
         score++;
         startModal('Good job, my young grasshopper!', "You got that one right! 😎 We've got a smarty pants in the house!")
     } else {
-        startModal("That one was inccorect, I'm afraid.", 'Try again on this next one though 🥸')
+        startModal("That one was incorrect, I'm afraid.", 'Try again on this next one though 🥸')
     }
 
     secondsLeft += 5
