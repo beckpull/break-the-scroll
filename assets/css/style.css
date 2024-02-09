@@ -27,7 +27,8 @@ img {
 }
 
 .main-img {
-    max-width: 100%;
+    width: 140px;
+    height: 140px;
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
@@ -47,6 +48,7 @@ img {
 .content h1 {
     font-size: 3em;
     padding-top: 5vh;
+    padding-bottom: 5vh;
     color: hsl(0, 0%, 96%);
 }
 
@@ -84,7 +86,7 @@ img {
 
 .start {
     /* entire start screen */
-    padding-top: 5vw;
+    padding-top: 0vw;
     padding-bottom: 0vw;
 }
 
@@ -98,7 +100,6 @@ img {
 .start-title {
     /* start title only */
     padding-bottom: 7vw;
-    background-color: hsl(0, 0%, 29%);
 }
 
 .start-btns {
@@ -176,19 +177,7 @@ img {
 
 }
 
-.span {
-    background-color: rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 0.8em;
-}
 
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 
 /* My Additions: */
 

@@ -433,7 +433,7 @@ $('#reset-btn').on('click', function () {
 var content = document.querySelector('.content')
 var load = 0
 
-var int = setInterval(blurring, 5)
+var int = setInterval(blurring, 8)
 
 function blurring() {
   load++
