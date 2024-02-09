@@ -31,7 +31,7 @@ function getCategories(pageNumber) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+      
 
             // Determine the total number of pages based on the number of categories
             var startIdx = (pageNumber - 1) * 6;
@@ -48,10 +48,10 @@ function getCategories(pageNumber) {
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
                 var category = displayedCategories[i];
-                console.log(category);
+                // console.log(category);
 
                 var iconUrl = getIconCategory(category.id);
-                console.log(iconUrl);
+                // console.log(iconUrl);
 
                 category[category.id] = {
                     name: category.name,
@@ -100,7 +100,7 @@ function getCategories(pageNumber) {
 
         })
         .catch(function (error) {
-            console.log('Error:', error);
+            // console.log('Error:', error);
         });
 
 
@@ -147,7 +147,6 @@ function tokenFetch() {
         })
         .then(function (data) {
             token = (data.token);
-            console.log(token);
             triviaFetch();
             startModal();
         })
@@ -156,20 +155,19 @@ function tokenFetch() {
 
 //Function to fetch the trivia quiz// 
 function triviaFetch() {
-    // var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
+    // PRODUCTION TEST URL ---->>>  var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
     var requestURL = "https://opentdb.com/api.php?amount=1&category=" + category + "&difficulty=" + difficulty + "&token=" + token;
-    console.log(requestURL);
+    // console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
             if (!response.ok) { 
                 return triviaFetch();
             }
-            console.log(requestURL);
-            return response.json();
+                  return response.json();
         })
         .then(function (data) {
             var correctAnswer = (data.results[0].correct_answer);
-            console.log(data);
+            // console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
 
@@ -249,15 +247,11 @@ $(document).on("click", ".btn-dif", function (event) {
     event.preventDefault();
     difficulty = $(this).attr("data-difficulty");
     category = $(this).attr("data-category");
-    console.log(difficulty);
-    console.log(category);
+    // console.log(difficulty);
+    // console.log(category);
     startQuiz();
 });
 
-
-
-
-console.log(category);
 
 function startQuiz() {
     // score = 0;
@@ -278,7 +272,7 @@ function startModal() {
         width: 600,
         padding: "3em",
         color: "#716add",
-        background: "#fff url(/images/trees.png)",
+        background: "#fff",
         backdrop: `
       rgba(0,0,123,0.4)
       url(./assets/img/giphy-2.gif)
@@ -291,7 +285,7 @@ function startModal() {
             Swal.showLoading();
             const timer = Swal.getPopup().querySelector("b");
             modalTimer = setInterval(() => {
-                timer.textContent = `${Swal.getTimerLeft()}`;
+                // timer.textContent = `${Swal.getTimerLeft()}`;
             }, 100);
         },
         willClose: () => {
@@ -366,7 +360,7 @@ function submitBtn(event) {
         user: userName.value.trim(),
         score: score
     }
-    console.log(userScore);
+    // console.log(userScore);
     saveScores(userScore);
     displayScores();
 }
@@ -450,6 +444,7 @@ function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
     boredFetch();
+    score=0
 }
 
 // Event listeners

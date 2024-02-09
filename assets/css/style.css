@@ -123,6 +123,11 @@ img {
     margin-top: 25vw;
 }
 
+.swal-wide {
+    width: 50vw !important;
+    height: 50vw !important;
+}
+
 .btn-dif:hover {
     /* ... */
 }
