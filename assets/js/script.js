@@ -450,6 +450,7 @@ function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
     boredFetch();
+    score=0
 }
 
 // Event listeners
