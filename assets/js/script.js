@@ -125,7 +125,7 @@ function getIconCategory(categoryId) {
 //---------------- Variables ----------------//
 // Variables to keep//
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
+var question = $("<p>").attr("class", "question  is-size-3 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -147,12 +147,6 @@ function tokenFetch() {
         })
         .then(function (data) {
             token = (data.token);
-            // console.log(token);
-            // Create title for quiz 
-            var quizMessageEl = document.createElement('h1');
-            quizMessageEl.classList.add('title', 'is-italic');
-            quizMessageEl.textContent = 'Answer as many questions as you can!';
-            headerEl.appendChild(quizMessageEl);
             triviaFetch();
             startModal();
         })

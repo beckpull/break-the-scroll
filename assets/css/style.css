@@ -151,6 +151,31 @@ img {
 
 .quiz-screen {
     background-color: #FFDD95;
+    position: relative;
+    height: 100vh;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+.titleq {
+    background-color: hsl(0, 0%, 29%);
+    color: #eee;
+    padding: 2rem;
+}
+
+.time {
+    color: hsl(0, 0%, 29%);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.question {
+    background-color: hsl(0, 0%, 96%);
+    color: hsl(0, 0%, 29%);
+    padding: 6rem;
 
 }
 
