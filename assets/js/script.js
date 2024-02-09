@@ -63,7 +63,7 @@ function getCategories(pageNumber) {
 
                 categoryEl.innerHTML = `
                     <button onClick="clickCategory(${category.id})" id="${category.id}" class="btn-cat"><img src="${category[category.id].iconUrl}" alt="${category.name} Icono"></button>
-                    <br><span class="has-text-link is-uppercase is-size-6 has-text-weight-bold">${category.name}</span>
+                    <br><span class="span has-text-link is-uppercase is-size-6 has-text-weight-bold">${category.name}</span>
                 `;
                 categoriesEl.appendChild(categoryEl);
             }
