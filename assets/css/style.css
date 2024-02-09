@@ -26,6 +26,35 @@ img {
     
 }
 
+.content {
+    position: relative;
+    height: 100vh;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.content::before {
+    content: "";
+    background-image: url(/assets/img/categories/bgs.jpg);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4; /* Adjust this to change the transparency of the image */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;  
+}
+
+.content h1 {
+    font-size: 3em;
+    color: #fff;
+    padding-top: 10vh;
+}
+
 .btn-dif {
     background-color: hsl(217, 71%, 53%);
     border: none;
@@ -96,6 +125,42 @@ img {
 
 .btn-dif:hover {
     /* ... */
+}
+
+
+
+.categories {
+    background: #efefbb;
+    background: linear-gradient(to right, #d4d3dd, #efefbb);
+    height: 100vh;
+}
+
+.category {
+    background-color: #eee;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
+    margin: 10px;
+    padding: 20px;
+    
+}
+
+.quiz-screen {
+    background-color: #FFDD95;
+
+}
+
+.span {
+    background-color: rgba(0, 0, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8em;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* My Additions: */
