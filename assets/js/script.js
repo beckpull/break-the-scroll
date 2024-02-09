@@ -1,5 +1,4 @@
 // Query selector variables
-
 var startScreen = document.querySelector('.start');
 var startDiv = document.querySelector('.bored-api');
 var catScreen = document.querySelector('#categories');
@@ -12,16 +11,46 @@ var funIdea = document.querySelector('#scores-idea');
 var numFetch = document.querySelector('#num-fetch');
 var scoreTable = document.querySelector('#show-score');
 var headerEl = document.querySelector('header');
-
-// Local variables
-var currentIndex = 0;
-let score = 0;
-
-// SILVIA: ----------------------------------------------------------------------->
-
-// Get categories element that will contain the categories
 var categoriesEl = document.getElementById('categories');
 
+// Local variables
+let score = 0;
+var categoryId;
+var category;
+var difficulty;
+
+// START SCREEN FUNCTIONS:
+
+// First Bored API Fetch request
+function boredFetch() {
+    var requestURL = `http://www.boredapi.com/api/activity/`;
+
+    fetch(requestURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (document.querySelector('.start-api') != undefined) {
+                var indexBored1 = document.querySelector('.start-api');
+                startDiv.removeChild(indexBored1);
+            }
+            var indexBored = document.createElement('div');
+            indexBored.setAttribute('class', 'start-api');
+            var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
+            indexBored.innerHTML = fetchHtml;
+            startDiv.appendChild(indexBored);
+        })
+}
+
+function getStart() {
+    boredFetch();
+    startScreen.classList.remove('hide');
+    catScreen.classList.add('hide');
+}
+
+// CATEGORY SCREEN FUNCTIONS:
+
+// Dynamically create categories screen
 function getCategories(pageNumber) {
     startScreen.classList.add('hide');
     catScreen.classList.remove('hide');
@@ -115,30 +144,101 @@ function getIconCategory(categoryId) {
 }
 
 
-// JORDAN: -----------------------------------------------------------------------> 
+function clickCategory(categoryId) {
+    var categoriesEl = document.getElementById("categories");
 
+    categoriesEl.innerHTML = `
+        <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
+        <div class="button-container">
+            <button class="btn-dif button is-link is-rounded my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
+            <button class="btn-dif button is-link is-rounded my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
+            <button class="btn-dif button is-link is-rounded my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+        </div>
+        
+    `;
+}
 
+$(document).on("click", ".btn-dif", function (event) {
+    event.preventDefault();
+    difficulty = $(this).attr("data-difficulty");
+    category = $(this).attr("data-category");
+    startQuiz();
+});
 
+// QUIZ FUNCTIONS:
 
-
-
-//---------------- Variables ----------------//
-// Variables to keep//
+// Quiz variables
+var quizEl = document.getElementById('quiz');
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question  is-size-3 button-container");
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
 var generateToken = $("#generateToken");
 var resetToekn = $("#resetToken");
 var token;
-var difficulty;
-var category;
 var questionGroup = [];
-var categoryId;
 
-//---------------- Fetch Requests ----------------//
-var quizEl = document.getElementById('quiz');
+// Start the quiz
+function startQuiz() {
+    // score = 0;
+    setTimer();
+    catScreen.classList.add('hide');
+    quizScreen.classList.remove('hide');
+    tokenFetch();
+}
+
+// Setting timer/interval
+var timerInterval;
+var secondsLeft;
+
+function setTimer() {
+    secondsLeft = 120;
+
+    timerInterval = setInterval(function () {
+        if (secondsLeft >= 0) {
+            timeEl.textContent = 'Time: ' + secondsLeft;
+            secondsLeft--;
+        } else {
+            clearInterval(timerInterval);
+            aquireName();
+        }
+    }, 1000)
+}
+
+// Modal function
+function startModal(arg1, arg2) {
+    let modalTimer;
+    Swal.fire({
+
+        title: arg1,
+        text: arg2,
+        padding: "3em",
+        color: "#716add",
+        customClass: 'swal-wide',
+        backdrop: `
+      rgba(0,0,123,0.4)
+      url(./assets/img/giphy-2.gif)
+      left top
+      no-repeat
+    `,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            modalTimer = setInterval(() => {
+            }, 100);
+        },
+        willClose: () => {
+            clearInterval(modalTimer);
+        }
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+        }
+    })
+};
+
 function tokenFetch() {
     var requestURL = "https://opentdb.com/api_token.php?command=request"
     fetch(requestURL)
@@ -148,16 +248,14 @@ function tokenFetch() {
         .then(function (data) {
             token = (data.token);
             triviaFetch();
-            startModal();
+            startModal('Read the questions carefully, now...', '...and may the odds be ever in your favor! ');
         })
 
 };
 
 //Function to fetch the trivia quiz// 
 function triviaFetch() {
-    // PRODUCTION TEST URL ---->>>  var requestURL = "https://opentdb.com/api.php?amount=1&category=" + 9 + "&token=" + token;
     var requestURL = "https://opentdb.com/api.php?amount=1&category=" + category + "&difficulty=" + difficulty + "&token=" + token;
-    // console.log(requestURL);
     fetch(requestURL)
         .then(function (response) {
             if (!response.ok) { 
@@ -167,7 +265,6 @@ function triviaFetch() {
         })
         .then(function (data) {
             var correctAnswer = (data.results[0].correct_answer);
-            // console.log(data);
             questionGroup = (data.results[0].incorrect_answers);
             questionGroup.unshift(data.results[0].correct_answer);
 
@@ -196,29 +293,16 @@ function triviaFetch() {
         );
 };
 
-
-//---------------- Event Listeners ----------------//
-// Search form event listener //
-
-generateToken.on("click", function (event) {
-    tokenFetch();
-});
-
+// Adding score on correct answers and differentiating modal messages
 questionSet.on("click", ".option", function () {
     if ($(this).attr("id") === "correctOption") {
-        score++
+        score++;
+        startModal('Good job, my young grasshopper!', "You got that one right! 😎 We've got a smarty pants in the house!")
+    } else {
+        startModal("That one was inccorect, I'm afraid.", 'Try again on this next one though 🥸')
     }
 
-    //Show Modal Right/Wrong//
-    startModal()
-    //Add 5sec to timer//
-
-    //Modal stay for 5 sec//
     secondsLeft += 5
-    //Close modal and run through next functions//
-
-
-
 
     triviaFetch();
     questionGroup = [];
@@ -226,127 +310,9 @@ questionSet.on("click", ".option", function () {
 });
 
 
+// AQUIRE NAMES:
 
-
-
-function clickCategory(categoryId) {
-    var categoriesEl = document.getElementById("categories");
-
-    categoriesEl.innerHTML = `
-        <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
-        <div class="button-container">
-            <button class="btn-dif button is-link is-rounded my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
-        </div>
-        
-    `;
-}
-
-$(document).on("click", ".btn-dif", function (event) {
-    event.preventDefault();
-    difficulty = $(this).attr("data-difficulty");
-    category = $(this).attr("data-category");
-    // console.log(difficulty);
-    // console.log(category);
-    startQuiz();
-});
-
-
-function startQuiz() {
-    // score = 0;
-    // currentIndex = 0;
-    setTimer();
-    catScreen.classList.add('hide');
-    quizScreen.classList.remove('hide');
-    tokenFetch();
-}
-
-
-// BECKY: ----------------------------------------------------------------------->
-function startModal() {
-    let modalTimer;
-    Swal.fire({
-
-        title: "5 second delay",
-        width: 600,
-        padding: "3em",
-        color: "#716add",
-        background: "#fff",
-        backdrop: `
-      rgba(0,0,123,0.4)
-      url(./assets/img/giphy-2.gif)
-      left top
-      no-repeat
-    `,
-        timer: 5000,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading();
-            const timer = Swal.getPopup().querySelector("b");
-            modalTimer = setInterval(() => {
-                // timer.textContent = `${Swal.getTimerLeft()}`;
-            }, 100);
-        },
-        willClose: () => {
-            clearInterval(modalTimer);
-        }
-    }).then((result) => {
-        if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-        }
-    })
-};
-
-// First Bored API Fetch request
-function boredFetch() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
-
-    fetch(requestURL)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            if (document.querySelector('.start-api') != undefined) {
-                var indexBored1 = document.querySelector('.start-api');
-                startDiv.removeChild(indexBored1);
-            }
-            var indexBored = document.createElement('div');
-            indexBored.setAttribute('class', 'start-api');
-            var fetchHtml = `<h4 class="has-text-grey subtitle is-4">${data.activity}?</h4>`;
-            indexBored.innerHTML = fetchHtml;
-            startDiv.appendChild(indexBored);
-        })
-}
-
-function getStart() {
-    boredFetch();
-    startScreen.classList.remove('hide');
-    catScreen.classList.add('hide');
-}
-
-// Calling function to get started
-getStart();
-
-// Setting timer/interval
-var timerInterval;
-var secondsLeft;
-
-function setTimer() {
-    secondsLeft = 120;
-
-    timerInterval = setInterval(function () {
-        if (secondsLeft >= 0) {
-            timeEl.textContent = 'Time: ' + secondsLeft;
-            secondsLeft--;
-        } else {
-            clearInterval(timerInterval);
-            aquireName();
-        }
-    }, 1000)
-}
-
-// Aquire name functions
+// Navigate to name screen
 function aquireName() {
     clearInterval(timerInterval);
     startScreen.classList.add('hide');
@@ -354,6 +320,7 @@ function aquireName() {
     nameScreen.classList.remove('hide');
 }
 
+// Submit btn funxtions (aquire name screen)
 function submitBtn(event) {
     event.preventDefault();
     var userScore = {
@@ -365,7 +332,7 @@ function submitBtn(event) {
     displayScores();
 }
 
-// Display high score functions
+// Saving high scores/names
 function saveScores(userScore) {
     var savedScores = localStorage.getItem('savedScores');
     var scoresArray = [];
@@ -376,10 +343,14 @@ function saveScores(userScore) {
     localStorage.setItem('savedScores', JSON.stringify(scoresArray));
 }
 
+// SCORE PAGE FUNCTIONS:
+
+// Define .toSentenceCase()
 String.prototype.toSentenceCase = function () {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase()
 }
 
+// Retrieve scores from local storage and parse them into 'High Scores' table
 function getScores() {
     scoreTable.innerHTML = `
                     <tr>
@@ -405,11 +376,7 @@ function getScores() {
     };
 }
 
-$('#reset-btn').on('click', function () {
-    localStorage.removeItem('savedScores');
-    $('.score-row').remove();
-});
-
+// Show high score screen and call second boredFetch request
 function displayScores() {
     boredFetch2();
     nameScreen.classList.add('hide');
@@ -439,7 +406,10 @@ function boredFetch2() {
         })
 }
 
+// Calling function to get started
+getStart();
 
+// 'Play again' btn functionality
 function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
@@ -456,14 +426,11 @@ $('#name-btn').on('click', aquireName);
 $('#play-again-btn').on('click', playAgain);
 
 
+$('#reset-btn').on('click', function () {
+    localStorage.removeItem('savedScores');
+    $('.score-row').remove();
+});
 
 
 
 
-
-// Stash of bulma elements to add:
-
-// Progress bar for quiz:
-// `
-// <progress class="progress is-success" value="60" max="100">60%</progress>
-// `
