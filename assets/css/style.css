@@ -26,6 +26,11 @@ img {
     
 }
 
+.option {
+    
+}
+
+
 .main-img {
     width: 140px;
     height: 140px;
@@ -40,7 +45,8 @@ img {
 
 
 .content {
-    background-color: #FFDD95;  
+    background: linear-gradient(to right, #d4d3dd, #efefbb);
+    height: 100vh;
     filter: blur(0px);
 }
 
@@ -52,16 +58,6 @@ img {
     color: hsl(0, 0%, 96%);
 }
 
-.btn-dif {
-    background-color: hsl(217, 71%, 53%);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
 
 .btn-dif:hover {
     background-color: hsl(0, 0%, 71%);
@@ -95,6 +91,8 @@ img {
     padding-top: 1vw;
     padding-bottom: 3vw;
 }
+
+
 
 
 .start-title {
@@ -148,14 +146,8 @@ img {
 }
 
 .quiz-screen {
-    background-color: #FFDD95;
-    position: relative;
+    background: linear-gradient(to right, #d4d3dd, #efefbb);
     height: 100vh;
-    z-index: 1;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-
 }
 
 .titleq {
@@ -173,7 +165,8 @@ img {
 .question {
     background-color: hsl(0, 0%, 96%);
     color: hsl(0, 0%, 29%);
-    padding: 6rem;
+    padding: 3rem;
+    height: 100%;
 
 }
 

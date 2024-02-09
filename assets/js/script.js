@@ -148,13 +148,17 @@ function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
-        <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
-        <div class="button-container">
-            <button class="btn-dif button is-link is-rounded my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+        <div class="container is-flex is-justify-content-center">
+            <div class="cat-levels has-text-centered">
+                <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
+                <div class="button-container">
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
         </div>
-        
+
     `;
 }
 
@@ -170,7 +174,7 @@ $(document).on("click", ".btn-dif", function (event) {
 // Quiz variables
 var quizEl = document.getElementById('quiz');
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-2 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -284,9 +288,9 @@ function triviaFetch() {
 
                 // Assign an ID to the correct question when displaying the buttons// 
                 if (rndQuestionGroup[j] === correctAnswer) {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "correctOption" }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "correctOption" }))
                 } else {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "option-" + j }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "option-" + j }))
                 }
             }
         }
