@@ -430,10 +430,10 @@ $('#reset-btn').on('click', function () {
     $('.score-row').remove();
 });
 
-const content = document.querySelector('.content')
-let load = 0
+var content = document.querySelector('.content')
+var load = 0
 
-let int = setInterval(blurring, 5)
+var int = setInterval(blurring, 5)
 
 function blurring() {
   load++
@@ -442,8 +442,6 @@ function blurring() {
     clearInterval(int)
   }
 
-  /* loadText.innerText = `${load}%`
-  loadText.style.opacity = scale(load, 0, 100, 1, 0) */
   content.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`
 }
 
