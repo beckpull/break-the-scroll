@@ -23,7 +23,7 @@ var difficulty;
 
 // First Bored API Fetch request
 function boredFetch() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
+    var requestURL = `https://www.boredapi.com/api/activity/`;
 
     fetch(requestURL)
         .then(function (response) {
@@ -390,7 +390,7 @@ function displayScores() {
 
 // Second bored fetch request
 function boredFetch2() {
-    var requestURL = `http://www.boredapi.com/api/activity/`;
+    var requestURL = `https://www.boredapi.com/api/activity/`;
 
     fetch(requestURL)
         .then(function (response) {
