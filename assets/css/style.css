@@ -106,8 +106,8 @@ img {
 }
 
 .swal-wide {
-    width: 70vw !important;
-    height: 70vw !important;
+    width: 85vw !important;
+    height: 100vh !important;
 }
 
 .categories {
@@ -166,10 +166,10 @@ img {
     }
 }
 
-@media screen and (max-width: 615px) {
+@media screen and (max-width: 800px) {
     .swal-wide {
         width: 100vw !important;
-        height: 100vw !important;
-        font-size: 9px !important;
+        height: 100vh !important;
+
     }
 }
