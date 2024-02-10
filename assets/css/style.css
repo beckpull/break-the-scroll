@@ -21,9 +21,10 @@ img {
     
 }
 
-.conteiner-min {
+.container-min {
     min-height: 100%;
-  }
+}
+
 
 .main-img {
     width: 160px;
@@ -41,6 +42,7 @@ img {
 .content {
     background: linear-gradient(to right, #d4d3dd, #efefbb);
     height: 100vh;
+    width: 100vw;
     filter: blur(0px);
 }
 
@@ -153,7 +155,9 @@ img {
     min-height: 100%;
 }
 
-
+.scores-page {
+    min-height: 100%;
+}
 
 /* My Additions: */
 
