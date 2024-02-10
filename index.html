@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="./assets/css/styleReset.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Break the Scroll!</title>
 </head>
@@ -15,17 +16,25 @@
     <div class="container">
 
         <section class="content start has-text-centered">
-            <div id="start-screen">
-                <h1 class="start-title block title is-1 my-5 is-white">Ready to learn something?</h1>
-                <h3 class="start-mid block subtitle is-3 my-2">Or, could we entice you to:</h3> 
-                <div class="block bored-api my-2">
-                 <!-- First Bored Api fetch request response will populate here -->
+            <div id="start-screen" class="container">
+                <h1 class="start-title block title is-1 is-white has-background-link">Ready to Learn Something?</h1>
+                <h3 class="start-mid block subtitle is-3 my-1">Or, could we entice you to:</h3> 
+                <div class="columns is-centered is-multiline">
+                    <div class="column is-one-third">
+                        <img class="main-img" src="assets/img/categories/dog.jpg" alt="dog-reading">
+                    </div>
+                    <div class="column is-full block bored-api my-2">
+                        <!-- First Bored Api fetch request response will populate here -->
+                    </div>
                 </div>
+                
+                
             </div>
             <div class="start-btns">
-                
-                <button class="button is-link is-rounded is-large" id="category-btn">Take me to Categories</button>
-                <!-- <button class="button is-link is-light is-small" id="name-btn">Aquire Name</button> -->
+                <div class="container">
+                    <button class="is-fullwidth button is-link is-rounded is-large" id="category-btn">Take me to Categories</button>
+                    <!-- <button class="button is-link is-light is-small" id="name-btn">Aquire Name</button> -->
+                </div>
             </div>
         </section>
 
@@ -33,21 +42,22 @@
             
         </section>
 
+
         <section class="quiz-screen hide has-text-centered" id="quiz">
             <header>
-                <h5 class="time is-dark p-6 has-text-right"></h5>
+                <h5 class="time is-dark p-4 has-text-right"></h5>
             </header>
-            <h1 class="titleq title is-white is-1">Answer as many questions as you can!</h1>
+            <h1 class="titleq">Answer as many questions as you can!</h1>
         </section>
     
-        <section class="aquire-name has-text-centered hide" id="aquire-name">
+        <section class="section content aquire-name has-text-centered hide" id="aquire-name">
             <h2 class="my-3 title is-3" id='end-message'>All done!</h2>   
             <h3 class="my-3 subtitle is-4 has-text-grey enter-name">Enter your name below:</h3>
             <input class="input is-large my-3 has-text-centered" type="text" id="name" placeholder="Enter name here">
             <button class="button my-3 is-large is-link is-outlined" id="submit-name">Submit</button>
         </section>
 
-        <div class="scores-page hide content has-text-centered">
+        <div class="section content scores-page hide content has-text-centered">
             <h1 class=" score-title title is-2 has-text-link my-3">High Scores</h1>
 
             <section class="table-container scores box" id="high-scores">
