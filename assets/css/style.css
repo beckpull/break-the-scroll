@@ -44,8 +44,6 @@ img {
 
 .content h1 {
     font-size: 3em;
-    padding-top: 5vh;
-    padding-bottom: 5vh;
     color: hsl(0, 0%, 96%);
 }
 
@@ -135,6 +133,7 @@ img {
     background-color: hsl(0, 0%, 29%);
     color: #eee;
     padding: 2rem;
+    font-size: 3rem;
 }
 
 .time {
