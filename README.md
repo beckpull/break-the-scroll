@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/beckpull/break-the-scroll">
-    <img src="assets/readme-images/qr-scan.png" alt="Logo" width="300" height="220">
+    <img src="assets/readme-images/logo.png" alt="Logo" width="240" height="240">
   </a>
 
 <h3 align="center">Break the Scroll!</h3>
@@ -79,6 +79,9 @@ This webpage is meant to encourage users to stop the mindless scrolling on TikTo
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+When users scan the QR code below, they're taken to the "Break the Scroll!" game. 
+
+<img src="assets/readme-images/qr-scan(new).png" alt="Logo" width="300" height="220">
 
 When users begin the trivia game, they are first asked to choose a category and difficulty. The button clicks for the category and difficulty are used to define the parameters of the trivia fetch URL. After these parameters are established, a unique token is appended to the end of the URL which ensures that questions will never repeat for that game. 
 
