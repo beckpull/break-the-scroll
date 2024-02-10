@@ -217,7 +217,7 @@ function startModal(arg, arg1, arg2) {
         title: "<strong>HTML <u>example</u></strong>",
         icon: arg,
         html: `
-            <h2 class="subtitle is-4">Your current score is: ${score}.</h2>
+            <h2 class="subtitle is-4"><strong><i>Your current score is: ${score}.</i></strong></h2>
         `,
         title: arg1,
         footer: arg2,
