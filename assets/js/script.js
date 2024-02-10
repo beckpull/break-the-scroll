@@ -148,7 +148,7 @@ function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
-        <div class="container is-flex is-justify-content-center">
+        <div class="container section content is-flex is-justify-content-center">
             <div class="cat-levels has-text-centered">
                 <h2 class="title has-text-weight-bold is-2">Select the difficulty level</h2>
                 <div class="button-container">
