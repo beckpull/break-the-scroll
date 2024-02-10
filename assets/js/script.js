@@ -211,15 +211,13 @@ function setTimer() {
 }
 
 // Modal function
-function startModal(arg1, arg2) {
+function startModal(arg, arg1, arg2) {
     let modalTimer;
     Swal.fire({
         title: "<strong>HTML <u>example</u></strong>",
-        icon: "info",
+        icon: arg,
         html: `
-            You can use <b>bold text</b>,
-            <a href="#">links</a>,
-            and other HTML tags
+            <h2 class="subtitle is-4">Your current score is: ${score}.</h2>
         `,
         title: arg1,
         footer: arg2,
@@ -259,7 +257,7 @@ function tokenFetch() {
         .then(function (data) {
             token = (data.token);
             triviaFetch();
-            startModal('Read the questions carefully, now...', '...and may the odds be ever in your favor! ');
+            startModal('info', 'Read the questions carefully, now...', '...and may the odds be ever in your favor! ');
         })
 
 };
@@ -308,9 +306,9 @@ function triviaFetch() {
 questionSet.on("click", ".option", function () {
     if ($(this).attr("id") === "correctOption") {
         score++;
-        startModal('Good job, my young grasshopper!',"You got that one right! 😎 We've got a smarty pants in the house!")
+        startModal('success','Good job, my young grasshopper!',"You got that one right! 😎 We've got a smarty pants in the house!")
     } else {
-        startModal("That one was incorrect, I'm afraid.",'Try again on this next one though 🥸')
+        startModal('error',"That one was incorrect, I'm afraid.",'Try again on this next one though 🥸')
     }
 
     secondsLeft += 5
