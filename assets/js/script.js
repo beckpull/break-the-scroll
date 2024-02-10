@@ -103,23 +103,23 @@ function getCategories(pageNumber) {
             pagination.innerHTML = `
                 <ul class="pagination-list">
                     <li>
-                        <a class="pagination-link ${pageNumber === 1 ? 'is-current' : ''}" 
+                        <a class="pagination-link has-text-weight-bold ${pageNumber === 1 ? 'is-current' : ''}" 
                            aria-label="Page 1" 
                            aria-current="${pageNumber === 1 ? 'page' : ''}"
                            onclick="getCategories(1)">1</a>
                     </li>
                     <li>
-                        <a class="pagination-link ${pageNumber === 2 ? 'is-current' : ''}" 
+                        <a class="pagination-link has-text-weight-bold ${pageNumber === 2 ? 'is-current' : ''}" 
                            aria-label="Goto page 2" 
                            onclick="getCategories(2)">2</a>
                     </li>
                     <li>
-                        <a class="pagination-link ${pageNumber === 3 ? 'is-current' : ''}" 
+                        <a class="pagination-link has-text-weight-bold ${pageNumber === 3 ? 'is-current' : ''}" 
                            aria-label="Goto page 3" 
                            onclick="getCategories(3)">3</a>
                     </li>
                     <li>
-                        <a class="pagination-link ${pageNumber === 4 ? 'is-current' : ''}" 
+                        <a class="pagination-link has-text-weight-bold ${pageNumber === 4 ? 'is-current' : ''}" 
                            aria-label="Goto page 4" 
                            onclick="getCategories(4)">4</a>
                     </li>
@@ -148,7 +148,7 @@ function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
-        <div class="container section content is-flex is-justify-content-center">
+        <div class="container section content is-flex is-justify-content-center is-align-items-center">
             <div class="cat-levels has-text-centered">
                 <h2 class="title has-text-weight-bold is-2">Select the difficulty level</h2>
                 <div class="button-container">
