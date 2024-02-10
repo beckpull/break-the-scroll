@@ -114,8 +114,11 @@ img {
 }
 
 .swal-wide {
-    width: 50vw !important;
-    height: 50vw !important;
+    width: 100vw !important;
+    height: 100vw !important;
+    font-size: 13px;
+    background-image: url(./tree1.jpg);
+
 }
 
 .btn-dif:hover {

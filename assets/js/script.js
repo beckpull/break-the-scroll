@@ -210,11 +210,18 @@ function setTimer() {
 function startModal(arg1, arg2) {
     let modalTimer;
     Swal.fire({
-
+        title: "<strong>HTML <u>example</u></strong>",
+        icon: "info",
+        html: `
+            You can use <b>bold text</b>,
+            <a href="#">links</a>,
+            and other HTML tags
+        `,
         title: arg1,
-        text: arg2,
+        footer: arg2,
         padding: "3em",
-        color: "#716add",
+        background: "#fff url(./assets/img/watercolor.jpeg)",
+        color: "darkblue",
         customClass: 'swal-wide',
         backdrop: `
       rgba(0,0,123,0.4)
@@ -297,9 +304,9 @@ function triviaFetch() {
 questionSet.on("click", ".option", function () {
     if ($(this).attr("id") === "correctOption") {
         score++;
-        startModal('Good job, my young grasshopper!', "You got that one right! 😎 We've got a smarty pants in the house!")
+        startModal('Good job, my young grasshopper!',"You got that one right! 😎 We've got a smarty pants in the house!")
     } else {
-        startModal("That one was inccorect, I'm afraid.", 'Try again on this next one though 🥸')
+        startModal("That one was incorrect, I'm afraid.",'Try again on this next one though 🥸')
     }
 
     secondsLeft += 5
