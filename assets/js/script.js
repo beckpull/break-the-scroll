@@ -72,7 +72,7 @@ function getCategories(pageNumber) {
 
             // Show the categories container
             var catMessageEl = document.createElement('h2');
-            catMessageEl.classList.add('title', 'has-text-weight-bold');
+            catMessageEl.classList.add('title', 'has-text-weight-bold','is-1');
             catMessageEl.textContent = 'Choose a category to start the quiz';
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
@@ -148,13 +148,17 @@ function clickCategory(categoryId) {
     var categoriesEl = document.getElementById("categories");
 
     categoriesEl.innerHTML = `
-        <h2 class="title has-text-weight-bold">Select the difficulty level</h2>
-        <div class="button-container">
-            <button class="btn-dif button is-link is-rounded my-4" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
-            <button class="btn-dif button is-link is-rounded my-4" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+        <div class="container section content is-flex is-justify-content-center">
+            <div class="cat-levels has-text-centered">
+                <h2 class="title has-text-weight-bold is-2">Select the difficulty level</h2>
+                <div class="button-container">
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="easy" data-category="${categoryId}" data-difficulty="easy">Easy</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="medium" data-category="${categoryId}" data-difficulty="medium">Medium</button>
+                    <button class="btn-dif button is-link is-rounded is-fullwidth my-4 is-medium" id="hard" data-category="${categoryId}" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
         </div>
-        
+
     `;
 }
 
@@ -170,7 +174,7 @@ $(document).on("click", ".btn-dif", function (event) {
 // Quiz variables
 var quizEl = document.getElementById('quiz');
 var questionSet = $(".quiz-screen");
-var question = $("<p>").attr("class", "question has-text-info-dark is-size-4 button-container");
+var question = $("<p>").attr("class", "question has-text-info-dark is-size-3 button-container");
 var ulQuiz = $("<ul>")
 var answerBtns = $(".option")
 var answerBtn = $("<button>")
@@ -284,9 +288,9 @@ function triviaFetch() {
 
                 // Assign an ID to the correct question when displaying the buttons// 
                 if (rndQuestionGroup[j] === correctAnswer) {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "correctOption" }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "correctOption" }))
                 } else {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4", "id": "option-" + j }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "option-" + j }))
                 }
             }
         }
@@ -430,10 +434,10 @@ $('#reset-btn').on('click', function () {
     $('.score-row').remove();
 });
 
-const content = document.querySelector('.content')
-let load = 0
+var content = document.querySelector('.content')
+var load = 0
 
-let int = setInterval(blurring, 5)
+var int = setInterval(blurring, 8)
 
 function blurring() {
   load++
@@ -442,8 +446,6 @@ function blurring() {
     clearInterval(int)
   }
 
-  /* loadText.innerText = `${load}%`
-  loadText.style.opacity = scale(load, 0, 100, 1, 0) */
   content.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`
 }
 
