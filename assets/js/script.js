@@ -60,7 +60,7 @@ function getCategories(pageNumber) {
             return response.json();
         })
         .then(function (data) {
-      
+
 
             // Determine the total number of pages based on the number of categories
             var startIdx = (pageNumber - 1) * 6;
@@ -72,7 +72,7 @@ function getCategories(pageNumber) {
 
             // Show the categories container
             var catMessageEl = document.createElement('h2');
-            catMessageEl.classList.add('title', 'has-text-weight-bold','is-1');
+            catMessageEl.classList.add('title', 'has-text-weight-bold', 'is-1');
             catMessageEl.textContent = 'Choose a category to start the quiz';
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
@@ -267,10 +267,10 @@ function triviaFetch() {
     var requestURL = "https://opentdb.com/api.php?amount=1&category=" + category + "&difficulty=" + difficulty + "&token=" + token;
     fetch(requestURL)
         .then(function (response) {
-            if (!response.ok) { 
-                return triviaFetch();
+            if (!response.ok) {
+                // return triviaFetch();
             }
-                  return response.json();
+            return response.json();
         })
         .then(function (data) {
             var correctAnswer = (data.results[0].correct_answer);
@@ -299,16 +299,20 @@ function triviaFetch() {
                 }
             }
         }
-        );
+        )
+        .catch(function (error) {
+            console.log("Unable to communicate to Open Trivia DB API.")
+            return triviaFetch();
+        })
 };
 
 // Adding score on correct answers and differentiating modal messages
 questionSet.on("click", ".option", function () {
     if ($(this).attr("id") === "correctOption") {
         score++;
-        startModal('success','Good job, my young grasshopper!',"You got that one right! 😎 We've got a smarty pants in the house!")
+        startModal('success', 'Good job, my young grasshopper!', "You got that one right! 😎 We've got a smarty pants in the house!")
     } else {
-        startModal('error',"That one was incorrect, I'm afraid.",'Try again on this next one though 🥸')
+        startModal('error', "That one was incorrect, I'm afraid.", 'Try again on this next one though 🥸')
     }
 
     secondsLeft += 5
@@ -423,7 +427,7 @@ function playAgain() {
     scoresScreen.classList.add('hide');
     startScreen.classList.remove('hide');
     boredFetch();
-    score=0
+    score = 0
 }
 
 // Event listeners
@@ -445,18 +449,18 @@ var load = 0
 var int = setInterval(blurring, 8)
 
 function blurring() {
-  load++
+    load++
 
-  if (load > 99) {
-    clearInterval(int)
-  }
+    if (load > 99) {
+        clearInterval(int)
+    }
 
-  content.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`
+    content.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`
 }
 
 // https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
 const scale = (num, in_min, in_max, out_min, out_max) => {
-  return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+    return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
 }
 
 
