@@ -288,7 +288,7 @@ function triviaFetch() {
                 rndQuestionGroup.push(spliceNumber[0]);
             }
             console.log(correctAnswer)
-            for (var j = 0; j < 51; j++) {
+            for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
 
                 // Assign an ID to the correct question when displaying the buttons// 
@@ -370,9 +370,9 @@ String.prototype.toSentenceCase = function () {
 function getScores() {
     scoreTable.innerHTML = `
                     <tr>
+                        <td class="is-size-4"><strong>Date</strong></td>
                         <td class="is-size-4"><strong>Users</strong></td>
                         <td class="is-size-4"><strong>Scores</strong></td>
-                        <td class="is-size-4"><strong>Date</strong></td>
                     </tr>
         `;
     var savedScores = localStorage.getItem('savedScores');
