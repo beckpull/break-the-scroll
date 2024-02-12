@@ -180,7 +180,6 @@ img {
 @media screen and (max-width: 800px) {
     .swal-wide {
         width: 100vw !important;
-        height: 100vh !important;
-
+        height: 95vh !important;
     }
 }
