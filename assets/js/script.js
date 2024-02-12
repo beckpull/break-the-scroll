@@ -197,7 +197,7 @@ var timerInterval;
 var secondsLeft;
 
 function setTimer() {
-    secondsLeft = 120;
+    secondsLeft = 55;
 
     timerInterval = setInterval(function () {
         if (secondsLeft >= 0) {
@@ -288,7 +288,7 @@ function triviaFetch() {
                 rndQuestionGroup.push(spliceNumber[0]);
             }
             console.log(correctAnswer)
-            for (var j = 0; j < rndQuestionGroup.length; j++) {
+            for (var j = 0; j < 51; j++) {
                 // Create Answers <Button> elements//
 
                 // Assign an ID to the correct question when displaying the buttons// 
@@ -333,12 +333,15 @@ function aquireName() {
     nameScreen.classList.remove('hide');
 }
 
+
 // Submit btn funxtions (aquire name screen)
 function submitBtn(event) {
+    var today = dayjs().format('MM/DD/YY');
     event.preventDefault();
     var userScore = {
         user: userName.value.trim(),
-        score: score
+        score: score,
+        date: today
     }
     // console.log(userScore);
     saveScores(userScore);
@@ -369,6 +372,7 @@ function getScores() {
                     <tr>
                         <td class="is-size-4"><strong>Users</strong></td>
                         <td class="is-size-4"><strong>Scores</strong></td>
+                        <td class="is-size-4"><strong>Date</strong></td>
                     </tr>
         `;
     var savedScores = localStorage.getItem('savedScores');
@@ -380,8 +384,9 @@ function getScores() {
             if (scoresArray[i]) {
                 var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
                 var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
+                var scoreDate = scoresArray[i].date !== undefined ? scoresArray[i].date : 'N/A';
                 tableRow.innerHTML = `
-                        <td>${userName}</td><td>${userScore}</td>
+                    <td>${scoreDate}</td><td>${userName}</td><td>${userScore}</td>
                     `;
                 scoreTable.appendChild(tableRow);
             }
