@@ -22,13 +22,15 @@ img {
 }
 
 .container-min {
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
 }
 
 
 .main-img {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
@@ -79,6 +81,7 @@ img {
     /* entire start screen */
     padding-top: 0vw;
     padding-bottom: 0vw;
+    
 }
 
 .categories{
@@ -89,7 +92,7 @@ img {
 
 .start-title {
     /* start title only */
-    padding-bottom: 7vw;
+    padding-bottom: 3vw;
 }
 
 .start-btns {
@@ -133,6 +136,7 @@ img {
 .quiz-screen {
     background: linear-gradient(to right, #d4d3dd, #efefbb);
     height: 100vh;
+    width: 100vw;
 }
 
 .titleq {
