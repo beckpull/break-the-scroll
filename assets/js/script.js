@@ -268,7 +268,7 @@ function triviaFetch() {
     fetch(requestURL)
         .then(function (response) {
             if (!response.ok) {
-                // return triviaFetch();
+                return triviaFetch();
             }
             return response.json();
         })
@@ -301,8 +301,12 @@ function triviaFetch() {
         }
         )
         .catch(function (error) {
-            console.log("Unable to communicate to Open Trivia DB API.")
-            return triviaFetch();
+            console.log("End of API questions.")
+            setTimeout(function () {
+                secondsLeft = 5;
+                (startModal('success', 'You answered all the available questions in this category!', 'Try a harder difficulty or category next!'));
+            }, 5000);
+
         })
 };
 
