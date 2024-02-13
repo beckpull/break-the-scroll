@@ -197,7 +197,7 @@ var timerInterval;
 var secondsLeft;
 
 function setTimer() {
-    secondsLeft = 120;
+    secondsLeft = 55;
 
     timerInterval = setInterval(function () {
         if (secondsLeft >= 0) {
@@ -268,7 +268,7 @@ function triviaFetch() {
     fetch(requestURL)
         .then(function (response) {
             if (!response.ok) {
-                // return triviaFetch();
+                return triviaFetch();
             }
             return response.json();
         })
@@ -301,8 +301,12 @@ function triviaFetch() {
         }
         )
         .catch(function (error) {
-            console.log("Unable to communicate to Open Trivia DB API.")
-            return triviaFetch();
+            console.log("End of API questions.")
+            setTimeout(function () {
+                secondsLeft = 5;
+                (startModal('success', 'You answered all the available questions in this category!', 'Try a harder difficulty or category next!'));
+            }, 5000);
+
         })
 };
 
@@ -333,12 +337,15 @@ function aquireName() {
     nameScreen.classList.remove('hide');
 }
 
+
 // Submit btn funxtions (aquire name screen)
 function submitBtn(event) {
+    var today = dayjs().format('MM/DD/YY');
     event.preventDefault();
     var userScore = {
         user: userName.value.trim(),
-        score: score
+        score: score,
+        date: today
     }
     // console.log(userScore);
     saveScores(userScore);
@@ -367,6 +374,7 @@ String.prototype.toSentenceCase = function () {
 function getScores() {
     scoreTable.innerHTML = `
                     <tr>
+                        <td class="is-size-4"><strong>Date</strong></td>
                         <td class="is-size-4"><strong>Users</strong></td>
                         <td class="is-size-4"><strong>Scores</strong></td>
                     </tr>
@@ -380,8 +388,9 @@ function getScores() {
             if (scoresArray[i]) {
                 var userName = scoresArray[i].user ? scoresArray[i].user.toSentenceCase() : 'N/A';
                 var userScore = scoresArray[i].score !== undefined ? scoresArray[i].score : 'N/A';
+                var scoreDate = scoresArray[i].date !== undefined ? scoresArray[i].date : 'N/A';
                 tableRow.innerHTML = `
-                        <td>${userName}</td><td>${userScore}</td>
+                    <td>${scoreDate}</td><td>${userName}</td><td>${userScore}</td>
                     `;
                 scoreTable.appendChild(tableRow);
             }
