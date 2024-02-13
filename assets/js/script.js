@@ -72,7 +72,7 @@ function getCategories(pageNumber) {
 
             // Show the categories container
             var catMessageEl = document.createElement('h2');
-            catMessageEl.classList.add('title', 'has-text-weight-bold', 'is-1');
+            catMessageEl.classList.add('title', 'has-text-weight-bold', 'is-1', 'mt-4');
             catMessageEl.textContent = 'Choose a category to start the quiz';
             categoriesEl.appendChild(catMessageEl);
             for (let i = 0; i < displayedCategories.length; i++) {
@@ -293,9 +293,9 @@ function triviaFetch() {
 
                 // Assign an ID to the correct question when displaying the buttons// 
                 if (rndQuestionGroup[j] === correctAnswer) {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "correctOption" }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "mt-6 option button is-link is-rounded my-4 is-medium mr-2", "id": "correctOption" }))
                 } else {
-                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "option button is-link is-rounded my-4 is-medium mr-2", "id": "option-" + j }))
+                    question.append($("<button>").html(rndQuestionGroup[j]).attr({ "class": "mt-6 option button is-link is-rounded my-4 is-medium mr-2", "id": "option-" + j }))
                 }
             }
         }
