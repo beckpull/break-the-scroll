@@ -287,7 +287,7 @@ function triviaFetch() {
                 var spliceNumber = questionGroup.splice((Math.floor(Math.random() * i)), 1);
                 rndQuestionGroup.push(spliceNumber[0]);
             }
-            console.log(correctAnswer)
+            // console.log(correctAnswer)
             for (var j = 0; j < rndQuestionGroup.length; j++) {
                 // Create Answers <Button> elements//
 
@@ -323,7 +323,7 @@ questionSet.on("click", ".option", function () {
 
     triviaFetch();
     questionGroup = [];
-    console.log(score);
+    // console.log(score);
 });
 
 
